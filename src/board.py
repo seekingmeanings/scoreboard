@@ -4,6 +4,7 @@
 class Board:
     def __init__(self) -> None:
         pass
-    
+
     class Segment:
-        pass
+        def __init__(self) -> None:
+            pass
