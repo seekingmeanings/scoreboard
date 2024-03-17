@@ -1,8 +1,74 @@
 {
-    "time": {
+    "boards": [
         {
-            "1": "",
+            "name": "board0",
+            "address": "0x20",
+            "type": "MCP23017",
+        },
+        {
+            "name": "board1",
+            "address": "0x21",
+            "type": "MCP23017"
+        },
+        {
+            "name": "board2",
+            "address": "0x22",
+            "type": "MCP23017"
+        },
+        {
+            "name": "board3",
+            "address": "0x23",
+            "type": "MCP23017"
+        },
+        {
+            "name": "board4",
+            "address": "0x24",
+            "type": "MCP23017"
+        },
+        {
+            "name": "board5",
+            "address": "0x25",
+            "type": "MCP23017"
+        },
+        {
+            "name": "board6",
+            "address": "0x26",
+            "type": "MCP23017"
+        },
+        {
+            "name": "board7",
+            "address": "0x27",
+            "type": "MCP23017"
         }
+    ],
 
-    }
+    "outputs": [
+        { 
+            "board": "board0",
+            "pins": [
+                "A0": {
+                    "name": "A0",
+                    "type": "output",
+                    "state": "off"
+                },
+                "A1",
+                "A2",
+                "A3",
+                "A4",
+                "A5",
+                "A6",
+                "A7",
+                "B0",
+                "B1",
+                "B2",
+                "B3",
+                "B4",
+                "B5",
+                "B6",
+                "B7"
+            ]
+        }
+    ]
+
+
 }

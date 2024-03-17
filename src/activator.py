@@ -1,10 +1,12 @@
 #!/usr/bin/env python3
 
 class LED:
-    def __init__(self, color):
-        self.color = color
+    def __init__(self, pin):
         self.state = False
+        self.pin = pin
 
-    def toggle(self):
-        self.state = not self.state
-        print(f'Toggling {self.color} LED: {self.state}')
+    def on(self):
+        self.state = True
+    
+    def off(self):
+        self.state = False
