@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-from activator import LED
+from activator import ExtenderBoard
 
 class Board:
     def __init__(self) -> None:
