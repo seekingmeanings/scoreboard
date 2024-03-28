@@ -8,11 +8,11 @@
                         {"B": "board0.A1"},
                         {"C": "board0.A2"},
                         {"D": "board0.A3"},
-                        {"E": "board0.A4"},
-                        {"F": "board0.A5"},
-                        {"G": "board0.A6"},
-                        {"H": "board0.A7"},
-                        {"I": "board0.B0"},
+
+                        {"F": "board0.A4"},
+                        {"G": "board0.A5"},
+                        {"H": "board0.A6"},
+                        {"I": "board0.A7"},
                         {"J": "board0.B1"},
                         {"K": "board0.B2"},
                         {"L": "board0.B3"},
@@ -26,7 +26,7 @@
                         {"B": "board0.B6"},
                         {"C": "board0.B7"},
                         {"D": "board1.A0"},
-                        {"E": "board1.A1"},
+
                         {"F": "board1.A2"},
                         {"G": "board1.A3"},
                         {"H": "board1.A4"},
@@ -47,7 +47,7 @@
                 {"B": "board1.B3"},
                 {"C": "board1.B4"},
                 {"D": "board1.B5"},
-                {"E": "board1.B6"},
+
                 {"F": "board1.B7"},
                 {"G": "board2.A0"},
                 {"H": "board2.A1"},
@@ -64,7 +64,7 @@
                 {"B": "board2.B0"},
                 {"C": "board2.B1"},
                 {"D": "board2.B2"},
-                {"E": "board2.B3"},
+
                 {"F": "board2.B4"},
                 {"G": "board2.B5"},
                 {"H": "board2.B6"},
@@ -89,7 +89,7 @@
                     {"B": "board3.A7"},
                     {"C": "board3.B0"},
                     {"D": "board3.B1"},
-                    {"E": "board3.B2"},
+
                     {"F": "board3.B3"},
                     {"G": "board3.B4"},
                     {"H": "board3.B5"},
@@ -106,7 +106,7 @@
                     {"B": "board4.A4"},
                     {"C": "board4.A5"},
                     {"D": "board4.A6"},
-                    {"E": "board4.A7"},
+
                     {"F": "board4.B0"},
                     {"G": "board4.B1"},
                     {"H": "board4.B2"},
@@ -125,7 +125,7 @@
                     {"B": "board5.A1"},
                     {"C": "board5.A2"},
                     {"D": "board5.A3"},
-                    {"E": "board5.A4"},
+
                     {"F": "board5.A5"},
                     {"G": "board5.A6"},
                     {"H": "board5.A7"},
@@ -142,7 +142,7 @@
                     {"B": "board5.B6"},
                     {"C": "board5.B7"},
                     {"D": "board6.A0"},
-                    {"E": "board6.A1"},
+
                     {"F": "board6.A2"},
                     {"G": "board6.A3"},
                     {"H": "board6.A4"},
@@ -161,7 +161,7 @@
                     {"B": "board6.B3"},
                     {"C": "board6.B4"},
                     {"D": "board6.B5"},
-                    {"E": "board6.B6"},
+
                     {"F": "board6.B7"},
                     {"G": "board7.A0"},
                     {"H": "board7.A1"},
