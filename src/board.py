@@ -1,7 +1,13 @@
 #!/usr/bin/env python3
 
-import json
+# only pi specific, needs to be flagged
+import mcp23017 as mcp
+from i2c import I2C
+import smbus
 
+
+
+import json
 from activator import ExtenderBoard
 
 class Board:
