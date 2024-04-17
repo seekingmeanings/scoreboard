@@ -7,25 +7,44 @@ import logging as lg
 
 # import redis
 import secrets
-from flask import Flask, request, send_file
+from flask import Flask, request, jsonify
 from flask_restful import Resource, Api, reqparse
+from flask_jwt_extended import JWTManager, jwt_required, create_access_token
 
 from dataclasses import dataclass
 
 import json
 # import re
 
-class ContentRessource(Resource, AccessCheck):
+from dummything import DummyVirtualThing
+
+
+
+
+
+class ContentRessource(Resource):
+    def __init__(self, thing) -> None:
+        super().__init__()
+        self.thing = thing
+
+
+class ConfigRessource(Resource):
     pass
 
-class ConfigRessource(Resource, AccessCheck):
-    pass
+
 
 
 class StateAccess(ContentRessource):
-    
     def get(self):
-        return
+        return jsonify(self.thing.get_state())
+    
+    def post(self):
+        p = reqparse.RequestParser()
+        p.add_argument("state", required=True, location="args", type=bool)
+        sargs = p.parse_args()
+
+        self.thing.set_state(sargs.state)
+        return self.get()
 
 
 
@@ -34,15 +53,22 @@ class BoardServer:
     def __init__(self):
         lg.debug("server instance init called")
 
+        # create working environement
+        self.thing = DummyVirtualThing()
+
+
+        # configure server
         self.app = Flask("SERVER NAME")
+        self.jtw = JWTManager(self.app)
         self.api = Api(self.app)
 
         lg.debug("adding resource points")
-
+        self.api.add_resource(StateAccess, "/rest" + "/state",
+                              resource_class_kwargs={"thing": self.thing})
 
     def run(self):
         lg.info("starting server")
-        self.app.run()
+        self.app.run(host="localhost")
 
 
 
@@ -51,15 +77,16 @@ class BoardServer:
 
 
 def main():
-
     lg.basicConfig(level="DEBUG")
 
-    lg.dubg(f"starting instance")
-    server_instance = BoardServer(
-        config=None,
-    )
+    lg.debug(f"starting instance")
 
+    server_instance = BoardServer(
+        #config=None,
+    )
+    server_instance.run()
 
 
 if __name__ == "__main__":
     main()
+    lg.info("shutdown")
