@@ -1,0 +1,143 @@
+#board{
+    background-color: green;
+}
+
+
+
+time
+
+
+
+
+
+
+button{
+    width: 30px;
+    height: 30px;
+    border: none;
+    border-radius: 100%;
+
+    justify-self: center;
+    align-self: center;
+
+    font-weight: bolder;
+    font-size: 100%;
+}
+
+#ba{
+    grid-area: A;
+    background-color: white;
+}
+
+#bb{
+    grid-area: B;
+    background-color: blue;
+}
+
+#bc{
+    grid-area: C;
+    background-color: blue;
+}
+
+#bd{
+    grid-area: D;
+    background-color: brown;
+}
+
+#be{
+    grid-area: E;
+    background-color: violet;
+}
+
+#bf{
+    grid-area: F;
+    background-color: turquoise;
+}
+
+#bg{
+    grid-area: G;
+    background-color: violet;
+}
+
+#bh{
+    grid-area: H;
+    background-color: turquoise;
+}
+
+#bi{
+    grid-area: I;
+    background-color: greenyellow;
+}
+
+#bj{
+    grid-area: J;
+    background-color: red;
+}
+
+#bk{
+    grid-area: K;
+    background-color: red;
+}
+
+#bl{
+    grid-area: L;
+    background-color: yellow;
+}
+
+#bm{
+    grid-area: M;
+    background-color: orange;
+}
+
+#bn{
+    grid-area: N;
+    background-color: purple;
+}
+
+#bo{
+    grid-area: O;
+    background-color: orange;
+}
+
+#bp{
+    grid-area: P;
+    background-color: purple;
+}
+
+#bq{
+    grid-area: Q;
+    background-color: grey;
+}
+
+#br{
+    grid-area: R;
+    background-color: black;
+    color: white;
+}
+
+#bs{
+    grid-area: S;
+    background-color: black;
+    color: white;
+}
+
+#bt{
+    grid-area: T;
+    background-color: pink;
+}
+
+
+.segment{
+    display: grid;
+    grid-template-columns: repeat(4, 50px);
+    grid-template-rows: repeat(7, 50px);
+    grid-template-areas:
+        "A B C D"
+        "E . . F"
+        "G . . H"
+        "I J K L"
+        "M . . N"
+        "O . . P"
+        "Q R S T"
+    ;
+}
