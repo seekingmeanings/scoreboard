@@ -19,9 +19,6 @@ import json
 from dummything import DummyVirtualThing
 
 
-
-
-
 class ContentRessource(Resource):
     def __init__(self, thing) -> None:
         super().__init__()
@@ -32,12 +29,10 @@ class ConfigRessource(Resource):
     pass
 
 
-
-
 class StateAccess(ContentRessource):
     def get(self):
         return jsonify(self.thing.get_state())
-    
+
     def post(self):
         p = reqparse.RequestParser()
         p.add_argument("state", required=True, location="args", type=bool)
@@ -47,15 +42,12 @@ class StateAccess(ContentRessource):
         return self.get()
 
 
-
-
 class BoardServer:
     def __init__(self):
         lg.debug("server instance init called")
 
         # create working environement
         self.thing = DummyVirtualThing()
-
 
         # configure server
         self.app = Flask("SERVER NAME")
@@ -71,18 +63,13 @@ class BoardServer:
         self.app.run(host="localhost")
 
 
-
-
-
-
-
 def main():
     lg.basicConfig(level="DEBUG")
 
     lg.debug(f"starting instance")
 
     server_instance = BoardServer(
-        #config=None,
+        # config=None,
     )
     server_instance.run()
 

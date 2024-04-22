@@ -1,45 +1,31 @@
 #!/usr/bin/env python3
 
-# only pi specific, needs to be flagged
-import mcp23017 as mcp
-from i2c import I2C
-import smbus
-
-
-
 import json
-from activator import ExtenderBoard
 
-class Board:
-    def __init__(self) -> None:
-        pass
-
-    class Segment:
-        def __init__(self) -> None:
-            pass
+from src.board_header.mcp23017_h import BoardMCP23017, I2c_obj
 
 
 class BoardConfig:
-    def __init__(self, config_file: str) -> None:
+    def __init__(self, config_file: str = None) -> None:
+        self.config = None
         self.config_file = config_file
-        self.config = self.load_config()
 
-    def load_config(self) -> dict:
+        self.i2c_obj = I2c_obj()
+
+        self.boards = {}
+
+        self.load_config()
+
+    def create_boards(self):
+        for board in self.config["boards"]:
+            self.boards[board["name"]] = BoardMCP23017(
+                name=board["name"],
+                address=board["address"],
+                i2c_obj=self.i2c_obj,
+            )
+
+    def load_config(self, config_file: str = None):
+        # TODO: maybe this can call all the other functions to refresh runtime
+        self.config_file = config_file if config_file else self.config_file
         with open(self.config_file, 'r') as file:
-            return json.load(file)
-        
-    def _get_board(self) -> Board:
-        for board in self.boards:
-            if board['type'] not in self.config['outputs']:
-                raise ValueError(f'Board type {board["type"]} not found in config')
-            lol = self.config['boards']
-
-
-
-    def get_led(self, led_id: int) -> LED:
-        led = self.config['leds'][led_id]
-        return LED(led['pin'], led['color'])
-
-    def get_segment(self, segment_id: int) -> Board.Segment:
-        segment = self.config['segments'][segment_id]
-        return Board.Segment()
+            self.config = json.load(file)
