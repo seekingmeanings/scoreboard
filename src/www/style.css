@@ -1,143 +1,103 @@
-#board{
-    background-color: green;
+body{
+  margin: 0;
+  
+}
+
+#board {
+  background-color: green;
+
+  display: grid;
+  grid-template: 
+
+  ;
+  
+}
+
+.seg {
+  color: yellow;
+  text-align: center;
+}
+
+.dot {
+width: 25px;
+height: 25px;
+
+  border: none;
+  border-radius: 100%;
+
+  justify-self: center;
+  align-self: center;
+
+  font-weight: bolder;
+  font-size: 100%;
+}
+
+.segment {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(7, 1fr);
+  grid-template-areas:
+    "A B C D"
+    "E . . F"
+    "G . . H"
+    "I J K L"
+    "M . . N"
+    "O . . P"
+    "Q R S T";
+}
+
+.cage{
+  border-style: double;
+  border-color: orange;
+}
+
+.dot{
+}
+
+.dots {
+  border-style: dashed;
+  display: grid;
+  grid-row: auto;
+  align-content: space-around;
+}
+
+.twodigit{
+  border-style: dotted;
+  border-color: red;
+
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  justify-items: start;
+
+  height: fit-content;
+  width: fit-content;
+
+}
+
+#ta{
+  grid-area: a;
+}
+#tb{
+  grid-area: b;
+
+}
+tc{
+  grid-area: c;
 }
 
 
 
-time
 
+.segmentgrp {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 2 / 1;
 
+  border-style: dotted;
+  border-color: blueviolet;
+  display: grid;
+  grid-template-columns: auto;
+  grid-template-areas: "a b c";
 
-
-
-
-button{
-    width: 30px;
-    height: 30px;
-    border: none;
-    border-radius: 100%;
-
-    justify-self: center;
-    align-self: center;
-
-    font-weight: bolder;
-    font-size: 100%;
-}
-
-#ba{
-    grid-area: A;
-    background-color: white;
-}
-
-#bb{
-    grid-area: B;
-    background-color: blue;
-}
-
-#bc{
-    grid-area: C;
-    background-color: blue;
-}
-
-#bd{
-    grid-area: D;
-    background-color: brown;
-}
-
-#be{
-    grid-area: E;
-    background-color: violet;
-}
-
-#bf{
-    grid-area: F;
-    background-color: turquoise;
-}
-
-#bg{
-    grid-area: G;
-    background-color: violet;
-}
-
-#bh{
-    grid-area: H;
-    background-color: turquoise;
-}
-
-#bi{
-    grid-area: I;
-    background-color: greenyellow;
-}
-
-#bj{
-    grid-area: J;
-    background-color: red;
-}
-
-#bk{
-    grid-area: K;
-    background-color: red;
-}
-
-#bl{
-    grid-area: L;
-    background-color: yellow;
-}
-
-#bm{
-    grid-area: M;
-    background-color: orange;
-}
-
-#bn{
-    grid-area: N;
-    background-color: purple;
-}
-
-#bo{
-    grid-area: O;
-    background-color: orange;
-}
-
-#bp{
-    grid-area: P;
-    background-color: purple;
-}
-
-#bq{
-    grid-area: Q;
-    background-color: grey;
-}
-
-#br{
-    grid-area: R;
-    background-color: black;
-    color: white;
-}
-
-#bs{
-    grid-area: S;
-    background-color: black;
-    color: white;
-}
-
-#bt{
-    grid-area: T;
-    background-color: pink;
-}
-
-
-.segment{
-    display: grid;
-    grid-template-columns: repeat(4, 50px);
-    grid-template-rows: repeat(7, 50px);
-    grid-template-areas:
-        "A B C D"
-        "E . . F"
-        "G . . H"
-        "I J K L"
-        "M . . N"
-        "O . . P"
-        "Q R S T"
-    ;
+  justify-content: space-evenly;
 }

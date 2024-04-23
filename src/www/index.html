@@ -1,52 +1,123 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>scoreboard controller</title>
 
-    <link rel="stylesheet" href="style.css">
-</head>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="css/buttons.css">
+  </head>
 
-<body>
+  <body>
     <div id="board">
-
-        <div id="time">
-            <p>time</p>
-            <div group="segmentgrp" id="timesegments">
-                <div id="firstdigit" class="segment">
-                    <button id="ba">A</button>
-                    <button id="bb">G</button>
-                    <button id="bc">G</button>
-                    <button id="bd">B</button>
-                    <button id="be">J</button>
-                    <button id="bf">K</button>
-                    <button id="bg">J</button>
-                    <button id="bh">K</button>
-                    <button id="bi">C</button>
-                    <button id="bj">H</button>
-                    <button id="bk">H</button>
-                    <button id="bl">D</button>
-                    <button id="bm">L</button>
-                    <button id="bn">M</button>
-                    <button id="bo">L</button>
-                    <button id="bp">M</button>
-                    <button id="bq">E</button>
-                    <button id="br">I</button>
-                    <button id="bs">I</button>
-                    <button id="bt">F</button>
-
-                </div>
+      <div id="time" class="">
+        <p class="seg" id="sl">time</p>
+        <div class="segmentgrp" id="timesegments">
+          <div class="twodigit" id="ta">
+            <div id="firstdigit" class="segment">
+              <button class="dot" id="ba">A</button>
+              <button class="dot" id="bb">G</button>
+              <button class="dot" id="bc">G</button>
+              <button class="dot" id="bd">B</button>
+              <button class="dot" id="be">J</button>
+              <button class="dot" id="bf">K</button>
+              <button class="dot" id="bg">J</button>
+              <button class="dot" id="bh">K</button>
+              <button class="dot" id="bi">C</button>
+              <button class="dot" id="bj">H</button>
+              <button class="dot" id="bk">H</button>
+              <button class="dot" id="bl">D</button>
+              <button class="dot" id="bm">L</button>
+              <button class="dot" id="bn">M</button>
+              <button class="dot" id="bo">L</button>
+              <button class="dot" id="bp">M</button>
+              <button class="dot" id="bq">E</button>
+              <button class="dot" id="br">I</button>
+              <button class="dot" id="bs">I</button>
+              <button class="dot" id="bt">F</button>
             </div>
 
+            <div id="seconddigit" class="segment">
+              <button class="dot" id="ba">A</button>
+              <button class="dot" id="bb">G</button>
+              <button class="dot" id="bc">G</button>
+              <button class="dot" id="bd">B</button>
+              <button class="dot" id="be">J</button>
+              <button class="dot" id="bf">K</button>
+              <button class="dot" id="bg">J</button>
+              <button class="dot" id="bh">K</button>
+              <button class="dot" id="bi">C</button>
+              <button class="dot" id="bj">H</button>
+              <button class="dot" id="bk">H</button>
+              <button class="dot" id="bl">D</button>
+              <button class="dot" id="bm">L</button>
+              <button class="dot" id="bn">M</button>
+              <button class="dot" id="bo">L</button>
+              <button class="dot" id="bp">M</button>
+              <button class="dot" id="bq">E</button>
+              <button class="dot" id="br">I</button>
+              <button class="dot" id="bs">I</button>
+              <button class="dot" id="bt">F</button>
+            </div>
+          </div>
+
+          <div class="dots" id="tb">
+            <button class="dot ud" id="ud"></button>
+            <button class="dot ld" id="ld"></button>
+          </div>
+
+          <div class="twodigit" id="tc">
+            <div id="firstdigit" class="segment">
+              <button class="dot" id="ba">A</button>
+              <button class="dot" id="bb">G</button>
+              <button class="dot" id="bc">G</button>
+              <button class="dot" id="bd">B</button>
+              <button class="dot" id="be">J</button>
+              <button class="dot" id="bf">K</button>
+              <button class="dot" id="bg">J</button>
+              <button class="dot" id="bh">K</button>
+              <button class="dot" id="bi">C</button>
+              <button class="dot" id="bj">H</button>
+              <button class="dot" id="bk">H</button>
+              <button class="dot" id="bl">D</button>
+              <button class="dot" id="bm">L</button>
+              <button class="dot" id="bn">M</button>
+              <button class="dot" id="bo">L</button>
+              <button class="dot" id="bp">M</button>
+              <button class="dot" id="bq">E</button>
+              <button class="dot" id="br">I</button>
+              <button class="dot" id="bs">I</button>
+              <button class="dot" id="bt">F</button>
+            </div>
+
+            <div id="seconddigit" class="segment">
+              <button class="dot" id="ba">A</button>
+              <button class="dot" id="bb">G</button>
+              <button class="dot" id="bc">G</button>
+              <button class="dot" id="bd">B</button>
+              <button class="dot" id="be">J</button>
+              <button class="dot" id="bf">K</button>
+              <button class="dot" id="bg">J</button>
+              <button class="dot" id="bh">K</button>
+              <button class="dot" id="bi">C</button>
+              <button class="dot" id="bj">H</button>
+              <button class="dot" id="bk">H</button>
+              <button class="dot" id="bl">D</button>
+              <button class="dot" id="bm">L</button>
+              <button class="dot" id="bn">M</button>
+              <button class="dot" id="bo">L</button>
+              <button class="dot" id="bp">M</button>
+              <button class="dot" id="bq">E</button>
+              <button class="dot" id="br">I</button>
+              <button class="dot" id="bs">I</button>
+              <button class="dot" id="bt">F</button>
+            </div>
+          </div>
         </div>
-
-
-
+      </div>
     </div>
 
     <script src="index.js"></script>
-</body>
-
+  </body>
 </html>
