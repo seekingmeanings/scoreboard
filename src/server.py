@@ -19,17 +19,17 @@ import json
 from dummything import DummyVirtualThing
 
 
-class ContentRessource(Resource):
+class ContentResource(Resource):
     def __init__(self, thing) -> None:
         super().__init__()
         self.thing = thing
 
 
-class ConfigRessource(Resource):
+class ConfigResource(Resource):
     pass
 
 
-class StateAccess(ContentRessource):
+class StateAccess(ContentResource):
     def get(self):
         return jsonify(self.thing.get_state())
 
@@ -46,7 +46,7 @@ class BoardServer:
     def __init__(self):
         lg.debug("server instance init called")
 
-        # create working environement
+        # create working environment
         self.thing = DummyVirtualThing()
 
         # configure server
