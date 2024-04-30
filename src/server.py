@@ -14,6 +14,7 @@ from flask_jwt_extended import JWTManager, jwt_required, create_access_token
 from dataclasses import dataclass
 
 import json
+
 # import re
 
 from dummything import DummyVirtualThing
@@ -55,8 +56,9 @@ class BoardServer:
         self.api = Api(self.app)
 
         lg.debug("adding resource points")
-        self.api.add_resource(StateAccess, "/rest" + "/state",
-                              resource_class_kwargs={"thing": self.thing})
+        self.api.add_resource(
+            StateAccess, "/rest" + "/state", resource_class_kwargs={"thing": self.thing}
+        )
 
     def run(self):
         lg.info("starting server")

@@ -12,7 +12,7 @@ try:
     json_file = str(sys.argv[1])
     output_file = str(sys.argv[2])
 
-    with (open(json_file) as source, open(output_file, "w") as target):
+    with open(json_file) as source, open(output_file, "w") as target:
         target.write(tomlkit.dumps(json.loads(source.read())))
 except (TypeError, IndexError):
     raise Exception("json_to_toml.py input.json output.toml")
