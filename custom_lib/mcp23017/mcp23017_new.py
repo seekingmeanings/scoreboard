@@ -80,3 +80,7 @@ class MCP23017:
         for reg in (HexVal.Register.IODIRA, HexVal.Register.IODIRB):
             self.i2c.write(self.address, reg, mode)
 
+			# make write funtion for single bit and write entire bit addr??
+			# way fastwr this way, dont have to get tbe stuff and mask it
+			# its just one io op then
+
