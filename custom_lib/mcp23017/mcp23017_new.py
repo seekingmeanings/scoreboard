@@ -9,7 +9,7 @@ class I2C:
 
         self.sbus = smbus.SMBus(smbus_num)
 
-    def write(self, address, offset, value):
+    def write(self, address: hex, offset: hex, value: hex) -> None:
         self.sbus.write_byte_data(address, offset, value)
 
     def read(self, address, register=None):
@@ -75,7 +75,7 @@ class MCP23017:
 
     def set_mode(self, mode, gpio=None):
         if gpio:
-            self.i2c
+            # mask things
             return
         for reg in (HexVal.Register.IODIRA, HexVal.Register.IODIRB):
             self.i2c.write(self.address, reg, mode)
