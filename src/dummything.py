@@ -10,8 +10,6 @@ class DummyVirtualThing:
         self._lock = RLock()
 
     def _locked_access(_func=None, *, track=True):
-        if _func:
-            exit(6666)
         def exec_wrap(func):
             def wrapper(*args, **kwargs):
                 wrapped_self = args[0]
