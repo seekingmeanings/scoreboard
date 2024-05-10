@@ -1,15 +1,14 @@
 from time import gmtime
 from threading import RLock
 
-from src.helper.race_condition import LockedTracking
-
-class DummyVirtualThing:
+class LockedTracking:
     def __init__(self) -> None:
-        self._state = False
-        self.last_access = None
+        self._last_access = None
         self._lock = RLock()
 
-    def _locked_access(_func=None, *, track=True):
+    # TODO: is this supposed to be static?
+    @staticmethod
+    def locked_access(_func=None, *, track=True):
         print(_func)
         def exec_wrap(func):
             def wrapper(*args, **kwargs):
@@ -23,15 +22,3 @@ class DummyVirtualThing:
             return exec_wrap
         else:
             return exec_wrap(_func)
-
-    @_locked_access(track=False)
-    def last_access(self):
-        return self.last_access
-
-    @LockedTracking.locked_access
-    def set_state(self, state: bool):
-        self._state = state
-
-    @_locked_access
-    def get_state(self) -> bool:
-        return self._state
