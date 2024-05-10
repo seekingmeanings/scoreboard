@@ -17,7 +17,7 @@ import json
 
 # import re
 
-from dummything import DummyVirtualThing
+from src.dummything import DummyVirtualThing
 
 
 class ContentResource(Resource):
