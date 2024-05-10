@@ -58,6 +58,6 @@ def main():
     lg.debug(f"starting instance")
 
     server_instance = BoardServer(
-        # config=None,
+        config_file="config.toml",
     )
     server_instance.run()
