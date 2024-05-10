@@ -4,7 +4,7 @@ import tomlkit
 
 from src.board_header.mcp23017_h import BoardMCP23017
 
-from src.activator import LED
+from src.things.activator import LED
 
 
 class BoardConfig:

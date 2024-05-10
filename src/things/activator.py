@@ -1,7 +1,10 @@
-#!/usr/bin/env python3
+from src.helper.race_condition import LockedTracking
 
-class LED:
+
+class LED(LockedTracking):
     def __init__(self, io_link, pin, constants, name: str = None):
+        super().__init__()
+
         self._state = False
         self.name = name
         self.constants = constants
@@ -14,10 +17,12 @@ class LED:
         )
 
     @property
+    @LockedTracking.locked_access
     def state(self):
         return self._state
 
     @state.setter
+    @LockedTracking.locked_access
     def state(self, state):
         self._state = state
         self.io_link.digital_write(

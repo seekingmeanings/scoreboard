@@ -25,3 +25,7 @@ class LockedTracking:
             return exec_wrap
         else:
             return exec_wrap(_func)
+
+    @locked_access(track=False)
+    def last_access(self):
+        return self._last_access
