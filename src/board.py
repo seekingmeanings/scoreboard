@@ -22,8 +22,8 @@ class BoardConfig:
         for board in self.config["boards"]:
             # TODO: assign right board type (need to finish the resource stuff)
             self.boards[self.config["boards"]["name"]] = BoardMCP23017(
-                name=board["name"],
-                address=board["address"],
+                name=self.config["boards"]["name"],
+                address=self.config["boards"]["address"],
             )
 
     def create_structure(self):
