@@ -1,0 +1,10 @@
+[server]
+name = "scoreboard"
+
+[api]
+ip = None
+port = 6969
+
+[configs]
+board_layout = "src/board_layout.toml"
+chiffres = "src/chiffres.toml"

@@ -7,6 +7,8 @@ import logging as lg
 
 # import redis
 import secrets
+
+import tomlkit
 from flask import Flask, request, jsonify
 from flask_restful import Resource, Api, reqparse
 from flask_jwt_extended import JWTManager, jwt_required, create_access_token
@@ -17,41 +19,26 @@ import json
 
 # import re
 
+# import environment stuff
+from src.resources.single_led_toggle import StateAccess
 from src.dummything import DummyVirtualThing
 
-
-class ContentResource(Resource):
-    def __init__(self, thing) -> None:
-        super().__init__()
-        self.thing = thing
-
-
-class ConfigResource(Resource):
-    pass
-
-
-class StateAccess(ContentResource):
-    def get(self):
-        return jsonify(self.thing.get_state())
-
-    def post(self):
-        p = reqparse.RequestParser()
-        p.add_argument("state", required=True, location="args", type=bool)
-        sargs = p.parse_args()
-
-        self.thing.set_state(sargs.state)
-        return self.get()
+from src.board import BoardConfig
 
 
 class BoardServer:
-    def __init__(self):
+    def __init__(self, config_file: str):
         lg.debug("server instance init called")
+
+        with open(config_file, "r") as f:
+            self.config = tomlkit.load(f)
 
         # create working environment
         self.thing = DummyVirtualThing()
+        self.board = BoardConfig(self.config["configs"]["board_layout"])
 
         # configure server
-        self.app = Flask("SERVER NAME")
+        self.app = Flask(self.config["server"]["name"])
         self.jtw = JWTManager(self.app)
         self.api = Api(self.app)
 
