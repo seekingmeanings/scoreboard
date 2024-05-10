@@ -7,8 +7,9 @@ import logging as lg
 
 class StateAccess(ContentResource):
     def get(self):
+        lg.debug(self.thing._state)
         lg.debug(self.thing.state)
-        return jsonify(self.thing.state)
+        return jsonify(self.thing._state)
 
     def post(self):
         p = reqparse.RequestParser()

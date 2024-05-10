@@ -6,12 +6,12 @@ class DummyVirtualThing(LockedTracking):
         super().__init__()
         self._state = False
 
-    @property
     @LockedTracking.locked_access
+    @property
     def state(self):
         return self._state
 
-    @state.setter
     @LockedTracking.locked_access
+    @state.setter
     def state(self, state: bool) -> bool:
         self._state = state
