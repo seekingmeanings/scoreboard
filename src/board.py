@@ -35,6 +35,11 @@ class BoardConfig:
                 self.digits[segment["id"]] = {}
                 for connection in segment["connections"]:
                     brd, gpio = str(segment["connections"][connection]).split(".")
+
+                    # TODO: cause i aint got no 1080314 modules
+                    if not brd == "board0":
+                        break
+
                     self.digits[segment["id"]][connection] = \
                         LED(
                             io_link=self.boards[brd].get_board_obj(),
