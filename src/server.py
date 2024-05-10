@@ -62,7 +62,7 @@ class BoardServer:
 
     def run(self):
         lg.info("starting server")
-        self.app.run(host="localhost")
+        self.app.run(host="localhost", port=6969)
 
 
 def main():
@@ -74,8 +74,3 @@ def main():
         # config=None,
     )
     server_instance.run()
-
-
-if __name__ == "__main__":
-    main()
-    lg.info("shutdown")
