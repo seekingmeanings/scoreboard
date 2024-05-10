@@ -32,7 +32,7 @@ class BoardConfig:
         self.digits = dict()
         for segment_group in self.config["activator"]:
             for segment in self.config["activator"][segment_group]:
-                self.digits[segment["id"]] = None
+                #self.digits[segment["id"]] = {}
                 for connection in segment["connections"]:
                     brd, gpio = str(segment["connections"][connection]).split(".")
                     self.digits[segment["id"]][connection] = \
