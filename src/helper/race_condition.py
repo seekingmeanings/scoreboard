@@ -11,7 +11,7 @@ class LockedTracking:
     @staticmethod
     def locked_access(_func=None, *, track=True):
         def exec_wrap(func):
-            @wraps
+            @wraps(func)
             def wrapper(*args, **kwargs):
                 wrapped_self = args[0]
                 with wrapped_self._lock:
