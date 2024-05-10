@@ -12,15 +12,21 @@ if [ ! -d env ]; then
   sudo apt update -y
   sudo apt install python3-smbus i2c-tools python3 || ups
 
-  echo "\n\n\n\n\nsetting up environment"
+  echo
+  echo
+  echo "setting up environment"
   python3 -m venv --system-site-packages env || ups
 
+  echo
   echo "going into the environment"
   #source env || ups
 
+  echo
   echo "installing python dependencies"
   env/bin/pip install -r requirements.txt || ups
 
+  echo
+  echo
   echo "install (probably) successful"
 else
   echo "environment already built, delete ./env/ and run again"
