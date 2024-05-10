@@ -16,6 +16,7 @@ class LED(LockedTracking):
             self.constants.OUTPUT
         )
 
+    # TODO: do i even want the locking on the lowest level? cause its gon fuck with overwrites in the end
     @property
     @LockedTracking.locked_access
     def state(self):

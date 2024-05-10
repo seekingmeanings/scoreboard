@@ -8,6 +8,7 @@ class LockedTracking:
         self._last_access = None
         self._lock = RLock()
 
+    # TODO: keep property decorators alive
     @staticmethod
     def locked_access(_func=None, *, track=True):
         def exec_wrap(func):
