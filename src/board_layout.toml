@@ -1,0 +1,92 @@
+[boards.board0]
+address = 0x20
+type = "MCP23017"
+
+[boards.board1]
+address = 0x21
+type = "MCP23017"
+
+[boards.board2]
+address = 0x22
+type = "MCP23017"
+
+[boards.board3]
+address = 0x23
+type = "MCP23017"
+
+[boards.board4]
+address = 0x24
+type = "MCP23017"
+
+[boards.board5]
+address = 0x25
+type = "MCP23017"
+
+[boards.board6]
+address = 0x26
+type = "MCP23017"
+
+[boards.board7]
+address = 0x27
+type = "MCP23017"
+
+
+
+
+[[activator.home]]
+id = "digit0"
+[activator.home.connections]
+"A" = "board0.GPA0"
+"B" = "board0.GPA1"
+"C" = "board0.GPA2"
+"G" = "board0.GPA3"
+"H" = "board0.GPA4"
+"I" = "board0.GPA5"
+"J" = "board0.GPA6"
+"K" = "board0.GPA7"
+"L" = "board0.GPB0"
+"M" = "board0.GPB1"
+
+[[activator.home]]
+id = "digit1"
+[activator.home.connections]
+"A" = "board0.GPB2"
+"B" = "board0.GPB3"
+"C" = "board0.GPB4"
+"G" = "board0.GPB5"
+"H" = "board0.GPB6"
+"I" = "board0.GPB7"
+"J" = "board1.GPA0"
+"K" = "board1.GPA1"
+"L" = "board1.GPA2"
+"M" = "board1.GPA3"
+
+
+
+[[activator.time]]
+id = "digit2"
+[activator.time.connections]
+"A" = "board1.GPA4"
+"B" = "board1.GPA5"
+"C" = "board1.GPA6"
+"G" = "board1.GPA7"
+"H" = "board1.GPB0"
+"I" = "board1.GPB1"
+"J" = "board1.GPB2"
+"K" = "board1.GPB3"
+"L" = "board1.GPB4"
+"M" = "board1.GPB5"
+
+[[activator.time]]
+id = "digit3"
+[activator.time.connections]
+"A" = "board1.GPB6"
+"B" = "board1.GPB7"
+"C" = "board2.GPA0"
+"G" = "board2.GPA1"
+"H" = "board2.GPA2"
+"I" = "board2.GPA3"
+"J" = "board2.GPA4"
+"K" = "board2.GPA5"
+"L" = "board2.GPA6"
+"M" = "board2.GPA7"

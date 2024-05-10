@@ -1,10 +1,7 @@
-class Test:
-    def __init__(self):
-        self.a()
+from pprint import pprint as pp
+import tomlkit as t
 
-    def a(self):
-        print("called")
+with open("board_layout.toml") as f:
+    stuff = t.load(f)
 
-
-t = Test()
-
+print()
