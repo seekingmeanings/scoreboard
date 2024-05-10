@@ -2,7 +2,7 @@
 name = "scoreboard"
 
 [api]
-ip = None
+ip = false
 port = 6969
 
 [configs]
