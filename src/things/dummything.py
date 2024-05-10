@@ -11,7 +11,7 @@ class DummyVirtualThing(LockedTracking):
     def state(self):
         return self._state
 
-    @LockedTracking.locked_access
     @state.setter
+    @LockedTracking.locked_access
     def state(self, state: bool) -> bool:
         self._state = state
