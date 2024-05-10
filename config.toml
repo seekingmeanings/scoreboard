@@ -6,5 +6,5 @@ ip = false
 port = 6969
 
 [configs]
-board_layout = "src/board_layout.toml"
+board_layout = "test/single_led.toml"
 chiffres = "src/chiffres.toml"
