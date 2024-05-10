@@ -9,7 +9,8 @@ class LockedTracking:
     # TODO: is this supposed to be static?
     @staticmethod
     def locked_access(_func=None, *, track=True):
-        print(_func)
+        if _func:
+            exit(9999)
         def exec_wrap(func):
             def wrapper(*args, **kwargs):
                 wrapped_self = args[0]
