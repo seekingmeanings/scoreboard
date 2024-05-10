@@ -9,10 +9,11 @@ ups() {
 if [ ! -d env ]; then
   echo "installing system dependencies"
   wait 3
+  sudo apt update -y
   sudo apt install python3-smbus i2c-tools python3 || ups
 
   echo "\n\n\n\n\nsetting up environment"
-  python3 -m venv --system-site-pachages env || ups
+  python3 -m venv --system-site-packages env || ups
 
   echo "going into the environment"
   source env || ups
