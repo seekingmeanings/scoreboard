@@ -40,7 +40,7 @@ class BoardConfig:
                             io_link=self.boards[brd].get_board_obj(),
                             pin=gpio,
                             name=connection,
-                            constants=self.boards[brd].stupid_place_to_put_conts_ffs
+                            constants=self.boards[brd].stupid_place_to_put_consts_ffs
                         )
 
     def load_config(self, config_file: str = None):
