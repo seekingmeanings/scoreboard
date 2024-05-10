@@ -2,9 +2,12 @@ from flask_restful import reqparse
 from flask import jsonify
 
 from src.resources.parent_resource_concepts import ContentResource
+import logging as lg
+
 
 class StateAccess(ContentResource):
     def get(self):
+        lg.debug(self.thing.state)
         return jsonify(self.thing.state)
 
     def post(self):
