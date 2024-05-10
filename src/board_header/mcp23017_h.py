@@ -28,6 +28,7 @@ class BoardMCP23017(Board):
             smbus=smbus.SMBus(1)
         )
 
+        self.stupid_place_to_put_consts_ffs = mcp
         self.gpio = mcp.ALL_GPIO
 
 

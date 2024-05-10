@@ -1,15 +1,17 @@
 #!/usr/bin/env python3
 
 class LED:
-    def __init__(self, io_link, pin, name: str = None):
+    def __init__(self, io_link, pin, constants, name: str = None):
         self._state = False
         self.name = name
         self.pin = pin
         self.io_link = io_link
 
+        self.constants = constants
+
         self.io_link.pin_mode(
             self.pin,
-            self.io_link.OUTPUT
+            self.constants.OUTPUT
         )
 
     @property
@@ -21,7 +23,7 @@ class LED:
         self._state = state
         self.io_link.digital_write(
             self.pin,
-            self.io_link.HIGH if state else self.io_link.LOW
+            self.constants.HIGH if state else self.constants.LOW
         )
 
     def toggle(self):
