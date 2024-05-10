@@ -4,10 +4,11 @@ class LED:
     def __init__(self, io_link, pin, constants, name: str = None):
         self._state = False
         self.name = name
-        self.pin = pin
+        self.constants = constants
+        self.pin = getattr(self.constants, pin)
         self.io_link = io_link
 
-        self.constants = constants
+        print(self.pin)
 
         self.io_link.pin_mode(
             self.pin,
