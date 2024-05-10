@@ -6,12 +6,16 @@ class DummyVirtualThing(LockedTracking):
         super().__init__()
         self._state = False
 
-    @LockedTracking.locked_access
-    def _get_state(self):
+        raise RuntimeWarning("use with caution, state is bugged, cause of some decorator bs")
+
+    @property
+    @LockedTracking.locked_access()
+    def state(self):
         return self._state
 
-    @LockedTracking.locked_access
-    def _set_state(self, state: bool) -> bool:
+    @LockedTracking.locked_access()
+    @state.setter
+    def state(self, state: bool) -> bool:
         self._state = state
 
-    state = property(fget=_get_state, fset=_set_state)
+    #state = property(fget=_get_state, fset=_set_state)
