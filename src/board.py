@@ -21,7 +21,7 @@ class BoardConfig:
         self.boards = dict()
         for board in self.config["boards"]:
             # TODO: assign right board type (need to finish the resource stuff)
-            self.boards[board["name"]] = BoardMCP23017(
+            self.boards[self.config["boards"]["name"]] = BoardMCP23017(
                 name=board["name"],
                 address=board["address"],
             )
