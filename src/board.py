@@ -57,3 +57,4 @@ class BoardConfig:
 
 if __name__ == "__main__":
     bc = BoardConfig("board_layout.toml")
+    breakpoint()

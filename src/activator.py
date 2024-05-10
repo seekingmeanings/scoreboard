@@ -8,8 +8,6 @@ class LED:
         self.pin = getattr(self.constants, pin)
         self.io_link = io_link
 
-        print(self.pin)
-
         self.io_link.pin_mode(
             self.pin,
             self.constants.OUTPUT
