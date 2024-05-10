@@ -35,11 +35,6 @@ class BoardConfig:
                 self.digits[segment["id"]] = {}
                 for connection in segment["connections"]:
                     brd, gpio = str(segment["connections"][connection]).split(".")
-
-                    # TODO: cause i aint got no 1080314 modules
-                    if not brd == "board0":
-                        break
-
                     self.digits[segment["id"]][connection] = \
                         LED(
                             io_link=self.boards[brd].get_board_obj(),
@@ -53,8 +48,3 @@ class BoardConfig:
         self.config_file = config_file if config_file else self.config_file
         with open(self.config_file, 'r') as file:
             self.config = tomlkit.load(file)
-
-
-if __name__ == "__main__":
-    bc = BoardConfig("board_layout.toml")
-    breakpoint()
