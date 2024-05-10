@@ -16,10 +16,10 @@ if [ ! -d env ]; then
   python3 -m venv --system-site-packages env || ups
 
   echo "going into the environment"
-  source env || ups
+  #source env || ups
 
   echo "installing python dependencies"
-  pip install -r requirements.txt || ups
+  env/bin/pip install -r requirements.txt || ups
 
   echo "install (probably) successful"
 else
