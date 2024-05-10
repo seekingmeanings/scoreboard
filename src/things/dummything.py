@@ -7,11 +7,11 @@ class DummyVirtualThing(LockedTracking):
         self._state = False
 
     @LockedTracking.locked_access
-    @property
-    def state(self):
+    def _get_state(self):
         return self._state
 
-    @state.setter
     @LockedTracking.locked_access
-    def state(self, state: bool) -> bool:
+    def _set_state(self, state: bool) -> bool:
         self._state = state
+
+    state = property(fget=_get_state, fset=_set_state)
