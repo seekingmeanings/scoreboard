@@ -2,7 +2,7 @@
 
 import tomlkit
 
-from src.board_header.mcp23017_h import BoardMCP23017
+from .board_header.mcp23017_h import BoardMCP23017
 
 from activator import LED
 
