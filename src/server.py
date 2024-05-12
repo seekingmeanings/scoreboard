@@ -28,7 +28,10 @@ class BoardServer:
 
         # create working environment
         # self.thing = DummyVirtualThing()
-        self.board = BoardConfig(self.config["configs"]["board_layout"])
+        self.board = BoardConfig(
+            chiffres_config_file=self.config["configs"]["chiffres"],
+            board_config_file=self.config["configs"]["board_layout"]
+        )
 
         # configure server
         self.app = Flask(self.config["server"]["name"])
