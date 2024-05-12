@@ -61,11 +61,16 @@ class BoardConfig:
         with open(self.chiffres_config_file, 'r') as file:
             self.chiffres_config = tomlkit.load(file)
 
-    def display_char(self, character: str|int, digit_id):
+    def display_char(self, digit_id, character: str|int = None):
         if not len(character) == 1:
             raise OverflowError(f"only one character is allowed, got {character}")
 
         try:
+            if character is None:
+                for led in self.digits[digit_id]:
+                    led.off()
+                    return
+
             # buffer the digit access
             digit = self.digits[digit_id]
             off_chars = ( set(self.chiffres["other"]["all"]) - set(self.chiffres[character]))
