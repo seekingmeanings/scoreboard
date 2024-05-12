@@ -22,6 +22,7 @@ class BoardServer:
     def __init__(self, config_file: str):
         lg.debug("server instance init called")
 
+        lg.info(f"loading config file: {config_file}")
         with open(config_file, "r") as f:
             self.config = tomlkit.load(f)
 

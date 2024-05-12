@@ -6,7 +6,7 @@
 # C H H B
 # L     M
 # L     M
-# E I I B
+# E E E B
 
 
 
@@ -60,7 +60,6 @@ all = [
     "G",
     "B",
     "K",
-    "C",
     "H",
     "M",
     "E",
