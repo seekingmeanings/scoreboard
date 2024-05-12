@@ -27,7 +27,7 @@ class BoardServer:
             self.config = tomlkit.load(f)
 
         # create working environment
-        self.thing = DummyVirtualThing()
+        # self.thing = DummyVirtualThing()
         self.board = BoardConfig(self.config["configs"]["board_layout"])
 
         # configure server
