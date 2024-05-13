@@ -5,6 +5,7 @@ ups() {
   exit 69
 }
 
+venv=".venv"
 
 if [ ! -d env ]; then
   echo "installing system dependencies"
@@ -15,7 +16,7 @@ if [ ! -d env ]; then
   echo
   echo
   echo "setting up environment"
-  python3 -m venv --system-site-packages env || ups
+  python3 -m venv --system-site-packages ${venv} || ups
 
   echo
   echo "going into the environment"
@@ -23,13 +24,13 @@ if [ ! -d env ]; then
 
   echo
   echo "installing python dependencies"
-  env/bin/pip install -r requirements.txt || ups
+  ${venv}/bin/pip install -r requirements.txt || ups
 
   echo
   echo
   echo "install (probably) successful"
 else
-  echo "environment already built, delete ./env/ and run again"
+  echo "environment already built, delete ${venv} and run again"
   echo "to reinstall"
 fi
 
