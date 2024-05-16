@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 import tomlkit
-
+import logging as lg
 from src.board_header.mcp23017_h import BoardMCP23017
 
 from src.things.activator import LED
@@ -94,5 +94,5 @@ class BoardConfig:
     def get_board_state(self) -> list[any]:
         ret = {}
         for digit in self.digits:
-
-        return [[digit[led].state for led in self.digits[digit]] for digit in self.digits]
+            lg.debug(digit)
+        # return [[digit[led].state for led in self.digits[digit]] for digit in self.digits]
