@@ -1,5 +1,5 @@
 from src.resources.parent_resource_concepts import ContentResource
-from flask_restful import reqparse
+from flask_restful import reqparse, request
 from flask import jsonify
 import logging as lg
 
@@ -10,6 +10,7 @@ class DisplayDigitAccess(ContentResource):
         p.add_argument("content", location="args", type=str)
         sargs = p.parse_args()
 
+        lg.debug(request.args)
         lg.debug(f"setting display {sargs.digit} to {sargs.content}")
 
         try:
