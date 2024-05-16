@@ -61,7 +61,8 @@ class BoardConfig:
             self.chiffres_conf = tomlkit.load(file)
             self.chiffres = self.chiffres_conf["numbers"]
 
-    def display_char(self, digit_id, character: str | int = None):
+    def display_char(self, digit_id, character: str|int = None):
+        character = str(character)
         lg.debug(f"{digit_id}: {character}")
         if character is not None and not len(character) == 1:
             raise OverflowError(f"only one character is allowed, got {character}")
@@ -71,6 +72,7 @@ class BoardConfig:
             digit = self.digits[digit_id]
 
             if character is None:
+                # TODO: geht nihcts
                 for led in digit:
                     digit[led].off()
                     return
