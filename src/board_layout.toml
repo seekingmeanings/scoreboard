@@ -90,3 +90,18 @@ id = "digit3"
 "K" = "board2.GPA5"
 "L" = "board2.GPA6"
 "M" = "board2.GPA7"
+
+
+[[activator.inning]]
+id = "digit9"
+[activator.inning.connectiongs]
+"A" = "board6.GPB0"
+"B" = "board6.GPB1"
+"C" = "board6.GPB2"
+"G" = "board6.GPB3"
+"H" = "board6.GPB4"
+"I" = "board6.GPB5"
+"J" = "board6.GPB6"
+"K" = "board6.GPB7"
+"L" = "board7.GPA0"
+"M" = "board7.GPA1"
