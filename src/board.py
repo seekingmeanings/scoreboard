@@ -77,6 +77,7 @@ class BoardConfig:
                 lg.debug(f"{digit} going dark")
                 for led in digit:
                     digit[led].off()
+                print("lol")
                 return
 
             character = str(character)
