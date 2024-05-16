@@ -1,5 +1,6 @@
 from src.resources.parent_resource_concepts import ContentResource
 from flask_restful import reqparse
+from flask import jsonify
 import logging as lg
 
 class DisplayDigitAccess(ContentResource):
@@ -11,6 +12,8 @@ class DisplayDigitAccess(ContentResource):
 
         lg.debug(f"setting display {args.id} to args.content")
 
-        self.board.display_char(args.id, args.content)
-
+        try:
+            self.board.display_char(args.id, args.content)
+        except OverflowError:
+            return "invalid op", 500
 
