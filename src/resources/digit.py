@@ -21,3 +21,11 @@ class DisplayDigitAccess(ContentResource):
 class BoardAccess(ContentResource):
     def get(self):
         return jsonify(self.board.get_board_state())
+
+
+class LEDAccess(ContentResource):
+    def get(self):
+        return
+
+    def post(self):
+        return
