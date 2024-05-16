@@ -59,7 +59,8 @@ class BoardConfig:
             self.config = tomlkit.load(file)
 
         with open(self.chiffres_config_file, 'r') as file:
-            self.chiffres_config = tomlkit.load(file)
+            self.chiffres_conf = tomlkit.load(file)
+            self.chiffres = self.chiffres_conf["numbers"]
 
     def display_char(self, digit_id, character: str|int = None):
         lg.debug(f"{digit_id}: {character}")
@@ -75,11 +76,11 @@ class BoardConfig:
             # buffer the digit access
             digit = self.digits[digit_id]
             lg.debug(f"{digit}")
-            off_chars = ( set(self.chiffres["other"]["all"]) - set(self.chiffres[character]))
+            off_chars = ( set(self.chiffres_conf["other"]["all"]) - set(self.chiffres[character]))
             lg.debug(f"{off_chars}")
 
             # activate the leds
-            if type(character) is int:
+            if type(character) is str:
                 for led in self.chiffres[character]:
                     digit[led].on()
 
