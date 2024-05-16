@@ -11,6 +11,7 @@ class DisplayDigitAccess(ContentResource):
         sargs = p.parse_args()
 
         lg.debug(request.args)
+        lg.debug(request.args)
         lg.debug(f"setting display {sargs.digit} to {sargs.content}")
 
         try:
