@@ -28,7 +28,8 @@ class LED(LockedTracking):
         self._state = state
         self.io_link.digital_write(
             self.pin,
-            self.constants.HIGH if state else self.constants.LOW
+            # inverted ???
+            self.constants.LOW if state else self.constants.HIGH
         )
 
     def toggle(self):

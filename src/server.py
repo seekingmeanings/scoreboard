@@ -13,8 +13,7 @@ from flask_jwt_extended import JWTManager
 
 # import environment stuff
 from src.resources.single_led_toggle import StateAccess
-from src.things.dummything import DummyVirtualThing
-
+from src.resources.digit import DisplayDigitAccess, BoardAccess, LEDAccess
 from src.board import BoardConfig
 
 
@@ -22,12 +21,16 @@ class BoardServer:
     def __init__(self, config_file: str):
         lg.debug("server instance init called")
 
+        lg.info(f"loading config file: {config_file}")
         with open(config_file, "r") as f:
             self.config = tomlkit.load(f)
 
         # create working environment
-        self.thing = DummyVirtualThing()
-        self.board = BoardConfig(self.config["configs"]["board_layout"])
+        # self.thing = DummyVirtualThing()
+        self.board = BoardConfig(
+            chiffres_config_file=self.config["configs"]["chiffres"],
+            board_config_file=self.config["configs"]["board_layout"]
+        )
 
         # configure server
         self.app = Flask(self.config["server"]["name"])
@@ -36,8 +39,26 @@ class BoardServer:
 
         lg.debug("adding resource points")
         self.api.add_resource(
-            StateAccess, "/rest" + "/state", resource_class_kwargs={"thing": self.thing}
+            DisplayDigitAccess, "/rest" + "/display",
+            resource_class_kwargs={
+                "board": self.board
+            }
         )
+        self.api.add_resource(
+            BoardAccess,
+            "/rest" + "/board",
+            resource_class_kwargs={
+                "board": self.board
+            }
+        )
+        self.api.add_resource(
+            LEDAccess,
+            "/rest" + "/led",
+            resource_class_kwargs={
+                "board": self.board
+            }
+        )
+
 
     def run(self):
         lg.info("starting server")

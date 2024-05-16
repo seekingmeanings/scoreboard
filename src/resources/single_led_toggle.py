@@ -17,4 +17,4 @@ class StateAccess(ContentResource):
         sargs = p.parse_args()
 
         self.thing.state = sargs.state
-        return self.get()
+        return jsonify(self.thing.state)
