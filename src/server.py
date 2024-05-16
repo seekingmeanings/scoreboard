@@ -13,7 +13,7 @@ from flask_jwt_extended import JWTManager
 
 # import environment stuff
 from src.resources.single_led_toggle import StateAccess
-from src.resources.digit import DisplayDigitAccess
+from src.resources.digit import DisplayDigitAccess, BoardAccess
 from src.board import BoardConfig
 
 
@@ -40,6 +40,13 @@ class BoardServer:
         lg.debug("adding resource points")
         self.api.add_resource(
             DisplayDigitAccess, "/rest" + "/display",
+            resource_class_kwargs={
+                "board": self.board
+            }
+        )
+        self.api.add_resource(
+            BoardAccess,
+            "/rest" + "/board",
             resource_class_kwargs={
                 "board": self.board
             }
