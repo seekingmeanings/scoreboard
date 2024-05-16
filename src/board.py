@@ -72,7 +72,7 @@ class BoardConfig:
             # buffer the digit access
             digit = self.digits[digit_id]
 
-            if character is None:
+            if not character:
                 # TODO: geht nihcts
                 for led in digit:
                     digit[led].off()
