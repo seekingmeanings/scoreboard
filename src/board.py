@@ -62,7 +62,7 @@ class BoardConfig:
             self.chiffres_config = tomlkit.load(file)
 
     def display_char(self, digit_id, character: str|int = None):
-        if not character or not len(character) == 1:
+        if not type(character) is None or not len(character) == 1:
             raise OverflowError(f"only one character is allowed, got {character}")
 
         try:
