@@ -94,7 +94,7 @@ id = "digit3"
 
 [[activator.inning]]
 id = "digit9"
-[activator.inning.connectings]
+[activator.inning.connections]
 "A" = "board6.GPB0"
 "B" = "board6.GPB1"
 "C" = "board6.GPB2"
