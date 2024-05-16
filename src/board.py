@@ -70,7 +70,7 @@ class BoardConfig:
         try:
             if character is None:
                 for led in self.digits[digit_id]:
-                    led.off()
+                    self.digits[led].off()
                     return
 
             # buffer the digit access
