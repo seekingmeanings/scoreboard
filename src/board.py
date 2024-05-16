@@ -74,7 +74,9 @@ class BoardConfig:
 
             # buffer the digit access
             digit = self.digits[digit_id]
+            lg.debug(f"{digit}")
             off_chars = ( set(self.chiffres["other"]["all"]) - set(self.chiffres[character]))
+            lg.debug(f"{off_chars}")
 
             # activate the leds
             if type(character) is int:
