@@ -63,7 +63,7 @@ class BoardConfig:
 
     def display_char(self, digit_id, character: str|int = None):
         lg.debug(f"{digit_id}: {character}")
-        if not len(character) == 1:
+        if character is not None and not len(character) == 1:
             raise OverflowError(f"only one character is allowed, got {character}")
 
         try:
