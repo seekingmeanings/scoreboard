@@ -72,11 +72,12 @@ class BoardConfig:
             # buffer the digit access
             digit = self.digits[digit_id]
 
-            if not character:
+            if character is None:
                 # TODO: geht nihcts
+                lg.debug(f"{digit} going dark")
                 for led in digit:
                     digit[led].off()
-                return
+
 
             lg.debug(f"{digit}")
             off_chars = (set(self.chiffres_conf["other"]["all"]) - set(self.chiffres[character]))
