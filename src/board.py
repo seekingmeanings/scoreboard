@@ -68,13 +68,15 @@ class BoardConfig:
             raise OverflowError(f"only one character is allowed, got {character}")
 
         try:
+            # buffer the digit access
+            digit = self.digits[digit_id]
+
             if character is None:
                 for led in self.digits[digit_id]:
                     self.digits[led].off()
                     return
 
-            # buffer the digit access
-            digit = self.digits[digit_id]
+
             lg.debug(f"{digit}")
             off_chars = ( set(self.chiffres_conf["other"]["all"]) - set(self.chiffres[character]))
             lg.debug(f"{off_chars}")
