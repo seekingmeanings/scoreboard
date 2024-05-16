@@ -109,5 +109,6 @@ class BoardConfig:
         ret = {}
         for digit in self.digits:
             lg.debug(digit)
+        lg.debug(self.digits)
         return self.digits
         # return [[digit[led].state for led in self.digits[digit]] for digit in self.digits]
