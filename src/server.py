@@ -13,7 +13,7 @@ from flask_jwt_extended import JWTManager
 
 # import environment stuff
 from src.resources.single_led_toggle import StateAccess
-from src.resources.digit import DisplayDigitAccess, BoardAccess
+from src.resources.digit import DisplayDigitAccess, BoardAccess, LEDAccess
 from src.board import BoardConfig
 
 
@@ -51,6 +51,14 @@ class BoardServer:
                 "board": self.board
             }
         )
+        self.api.add_resource(
+            LEDAccess,
+            "/rest" + "/led",
+            resource_class_kwargs={
+                "board": self.board
+            }
+        )
+
 
     def run(self):
         lg.info("starting server")
