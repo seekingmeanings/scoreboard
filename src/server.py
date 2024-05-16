@@ -13,7 +13,6 @@ from flask_jwt_extended import JWTManager
 
 # import environment stuff
 from src.resources.single_led_toggle import StateAccess
-from src.things.dummything import DummyVirtualThing
 
 from src.board import BoardConfig
 
