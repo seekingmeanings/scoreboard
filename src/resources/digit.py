@@ -6,7 +6,7 @@ import logging as lg
 class DisplayDigitAccess(ContentResource):
     def post(self):
         p = reqparse.RequestParser()
-        p.add_argument("id", location="args", type=str)
+        p.add_argument("digit", location="args", type=str)
         p.add_argument("content", location="args")
         args = p.parse_args()
 
