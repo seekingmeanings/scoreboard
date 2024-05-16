@@ -32,7 +32,6 @@ class BoardConfig:
         for number in self.chiffres_config["numbers"]:
             self.chiffres[int(number)] = set(self.chiffres_config["numbers"][number])
 
-
     def create_structure(self):
         self.create_boards()
         # create and link the leds
@@ -62,7 +61,7 @@ class BoardConfig:
             self.chiffres_conf = tomlkit.load(file)
             self.chiffres = self.chiffres_conf["numbers"]
 
-    def display_char(self, digit_id, character: str|int = None):
+    def display_char(self, digit_id, character: str | int = None):
         lg.debug(f"{digit_id}: {character}")
         if character is not None and not len(character) == 1:
             raise OverflowError(f"only one character is allowed, got {character}")
@@ -72,13 +71,12 @@ class BoardConfig:
             digit = self.digits[digit_id]
 
             if character is None:
-                for led in self.digits[digit_id]:
-                    self.digits[led].off()
+                for led in digit:
+                    digit[led].off()
                     return
 
-
             lg.debug(f"{digit}")
-            off_chars = ( set(self.chiffres_conf["other"]["all"]) - set(self.chiffres[character]))
+            off_chars = (set(self.chiffres_conf["other"]["all"]) - set(self.chiffres[character]))
             lg.debug(f"{off_chars}")
 
             # activate the leds
