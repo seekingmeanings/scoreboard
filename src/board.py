@@ -75,7 +75,7 @@ class BoardConfig:
                 # TODO: geht nihcts
                 for led in digit:
                     digit[led].off()
-                    return
+                return
 
             lg.debug(f"{digit}")
             off_chars = (set(self.chiffres_conf["other"]["all"]) - set(self.chiffres[character]))
