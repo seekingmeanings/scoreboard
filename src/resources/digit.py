@@ -3,6 +3,7 @@ from flask_restful import reqparse, request
 from flask import jsonify
 import logging as lg
 
+
 class DisplayDigitAccess(ContentResource):
     def post(self):
         p = reqparse.RequestParser()
@@ -16,3 +17,7 @@ class DisplayDigitAccess(ContentResource):
         except OverflowError:
             return "invalid op", 500
 
+
+class BoardAccess(ContentResource):
+    def get(self):
+        return jsonify(self.board.get_board_state())

@@ -91,4 +91,5 @@ class BoardConfig:
                 f'the character "{character}" {type(character)}is not in {self.chiffres_config_file}'
             ) from e
 
-
+    def get_board_state(self) -> list[any]:
+        return [[led.state for led in digit] for digit in self.digits]
