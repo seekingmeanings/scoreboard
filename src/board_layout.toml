@@ -78,7 +78,7 @@ id = "digit2"
 "M" = "board1.GPB5"
 
 [[activator.time]]
-id = "digit3"self.digits[digit_id
+id = "digit3"
 [activator.time.connections]
 "A" = "board1.GPB6"
 "B" = "board1.GPB7"
