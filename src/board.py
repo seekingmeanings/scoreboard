@@ -62,10 +62,11 @@ class BoardConfig:
             self.chiffres = self.chiffres_conf["numbers"]
 
     def display_char(self, digit_id, character: str|int = None):
+        if character:
+            if not len(character) == 1:
+                raise OverflowError(f"only one character is allowed, got {character}")
         character = str(character)
         lg.debug(f"{digit_id}: {character}")
-        if character and not len(character) == 1:
-            raise OverflowError(f"only one character is allowed, got {character}")
 
         try:
             # buffer the digit access
