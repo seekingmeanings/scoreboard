@@ -7,7 +7,7 @@ import logging as lg
 class DisplayDigitAccess(ContentResource):
     def post(self):
         p = reqparse.RequestParser()
-        p.add_argument("digit", location="args", type=str)
+        p.add_argument("digit", required=True, location="args", type=str)
         p.add_argument("content", location="args", type=str)
         sargs = p.parse_args()
         lg.debug(f"setting display {sargs.digit} to {sargs.content}")
@@ -25,7 +25,18 @@ class BoardAccess(ContentResource):
 
 class LEDAccess(ContentResource):
     def get(self):
-        return
+        p = reqparse.RequestParser()
+        p.add_argument("digit", required=True, location="args", type=str)
+        p.add_argument("led_id", location="args", type=str, required=True)
+        args = p.parse_args()
+
+        return self.board.digits[args.digit][args.led_id].state
 
     def post(self):
-        return
+        p = reqparse.RequestParser()
+        p.add_argument("digit", required=True, location="args", type=str)
+        p.add_argument("led_id", location="args", type=str, required=True)
+        p.add_argument("state", required= True, location="args", type=bool)
+        args = p.parse_args()
+
+        self.board.digits[args.digit][args.led_id].state = bool(args.state)
