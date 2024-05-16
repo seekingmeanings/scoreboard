@@ -112,3 +112,5 @@ class BoardConfig:
             ret[digit] = {}
             for led in self.digits[digit]:
                 ret[digit][led] = self.digits[digit][led].state
+
+        return ret
