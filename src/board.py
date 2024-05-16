@@ -72,6 +72,7 @@ class BoardConfig:
             # buffer the digit access
             digit = self.digits[digit_id]
 
+            # set everything off
             if character is None:
                 # TODO: geht nihcts
                 lg.debug(f"{digit} going dark")
