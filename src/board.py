@@ -92,4 +92,4 @@ class BoardConfig:
             ) from e
 
     def get_board_state(self) -> list[any]:
-        return [[led.state for led in digit] for digit in self.digits]
+        return [[digit[led].state for led in digit] for digit in self.digits]
