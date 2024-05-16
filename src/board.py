@@ -94,6 +94,9 @@ class BoardConfig:
                 f'the character "{character}" {type(character)}is not in {self.chiffres_config_file}'
             ) from e
 
+        except Exception as e:
+            raise RuntimeError from e
+
     def get_board_state(self) -> list[any]:
         ret = {}
         for digit in self.digits:
