@@ -10,7 +10,7 @@ class DisplayDigitAccess(ContentResource):
         p.add_argument("content", location="args")
         args = p.parse_args()
 
-        lg.debug(f"setting display {args.id} to args.content")
+        lg.debug(f"setting display {args.id} to {args.content}")
 
         try:
             self.board.display_char(args.id, args.content)
