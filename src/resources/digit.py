@@ -8,12 +8,12 @@ class DisplayDigitAccess(ContentResource):
         p = reqparse.RequestParser()
         p.add_argument("digit", location="args", type=str)
         p.add_argument("content", location="args")
-        args = p.parse_args()
+        sargs = p.parse_args()
 
-        lg.debug(f"setting display {args.digit} to {args.content}")
+        lg.debug(f"setting display {sargs.digit} to {sargs.content}")
 
         try:
-            self.board.display_char(args.digit, args.content)
+            self.board.display_char(sargs.digit, sargs.content)
         except OverflowError:
             return "invalid op", 500
 
