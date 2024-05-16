@@ -65,7 +65,7 @@ class BoardConfig:
         if type(character) == str:
             if not len(character) == 1:
                 raise OverflowError(f"only one character is allowed, got {character}")
-        character = str(character)
+
         lg.debug(f"{digit_id}: {character}")
 
         try:
@@ -77,7 +77,9 @@ class BoardConfig:
                 lg.debug(f"{digit} going dark")
                 for led in digit:
                     digit[led].off()
+                return
 
+            character = str(character)
 
             lg.debug(f"{digit}")
             off_chars = (set(self.chiffres_conf["other"]["all"]) - set(self.chiffres[character]))
