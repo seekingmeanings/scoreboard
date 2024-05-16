@@ -13,7 +13,7 @@ class DisplayDigitAccess(ContentResource):
         lg.debug(f"setting display {args.digit} to {args.content}")
 
         try:
-            self.board.display_char(args.id, args.content)
+            self.board.display_char(args.digit, args.content)
         except OverflowError:
             return "invalid op", 500
 
