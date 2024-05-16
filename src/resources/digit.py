@@ -9,9 +9,6 @@ class DisplayDigitAccess(ContentResource):
         p.add_argument("digit", location="args", type=str)
         p.add_argument("content", location="args", type=str)
         sargs = p.parse_args()
-
-        lg.debug(request.args)
-        lg.debug(request.args)
         lg.debug(f"setting display {sargs.digit} to {sargs.content}")
 
         try:
