@@ -1,8 +1,9 @@
 # for format see time.strftime docstring
 
-update_interval = 0.2
 
-[digits]
+[time]
+update_interval = 0.2
+# TODO: restructure into secerate conf file
 
 [digits.digit4]
 [digits.digit4.strftime]
