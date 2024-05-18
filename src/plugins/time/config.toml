@@ -1,0 +1,28 @@
+# for format see time.strftime docstring
+
+update_interval = 0.2
+
+[digits]
+
+[digits.digit4]
+[digits.digit4.strftime]
+format = "%S"
+index = 0
+
+[digits.digit5]
+[digits.digit5.strftime]
+format = "%S"
+index = 1
+
+
+[digits.digit6]
+[digits.digit6.strftime]
+format = "%M"
+index = 0
+
+[digits.digit7]
+[digits.digit7.strftime]
+format = "%M"
+index = 1
+
+

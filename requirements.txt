@@ -5,3 +5,7 @@ flask_jwt_extended
 mcp23017
 
 tomlkit
+
+
+public
+click

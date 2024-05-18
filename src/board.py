@@ -8,6 +8,7 @@ from src.things.activator import LED
 
 
 class BoardConfig:
+    # TODO: clean up the stupid dict for iters
     def __init__(self, chiffres_config_file: str, board_config_file: str = None) -> None:
         self.digits = None
         self.boards = None
@@ -106,12 +107,22 @@ class BoardConfig:
         except Exception as e:
             raise RuntimeError from e
 
-    def get_board_state(self) -> list[any]:
+    def get_board_state(self) -> dict[str, dict[str, bool]]:
+        """
+        Retrieve the current state of the board as a dictionary
+        containing the digits as the keys, and as vals
+        another dictionary containing dicts of led_id str and the state
+        :return:
+        """
         ret = {}
         for digit in self.digits:
-            lg.debug(digit)
             ret[digit] = {}
             for led in self.digits[digit]:
                 ret[digit][led] = self.digits[digit][led].state
 
-        return ret
+        # return ret
+
+        return {
+            digit: {led: led_obj.state for led, led_obj in leds.items()}
+            for digit, leds in self.digits.items()
+        }
