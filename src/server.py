@@ -14,7 +14,7 @@ from flask_restful import Api
 # import environment stuff
 from src.resources.single_led_toggle import StateAccess
 from src.resources.digit import DisplayDigitAccess, BoardAccess, LEDAccess
-from src.board import BoardConfig
+from src.scoreboard import Scoreboard
 
 
 class BoardServer:
@@ -27,7 +27,7 @@ class BoardServer:
 
         # create working environment
         # self.thing = DummyVirtualThing()
-        self.board = BoardConfig(
+        self.board = Scoreboard(
             chiffres_config_file=self.config["configs"]["chiffres"],
             board_config_file=self.config["configs"]["board_layout"]
         )

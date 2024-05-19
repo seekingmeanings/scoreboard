@@ -7,7 +7,7 @@ from src.board_header.mcp23017_h import BoardMCP23017
 from src.things.activator import LED
 
 
-class BoardConfig:
+class Scoreboard:
     # TODO: clean up the stupid dict for iters
     def __init__(self, chiffres_config_file: str, board_config_file: str = None) -> None:
         self.digits = None
@@ -21,6 +21,8 @@ class BoardConfig:
         self.create_structure()
 
     def create_boards(self):
+        # TODO: this has to go somewhere else, this class should not be specific
+        # TODO: or maybe the functions dont belong to this class
         self.boards = dict()
         for board in self.config["boards"]:
             # TODO: assign right board type (need to finish the resource stuff)
