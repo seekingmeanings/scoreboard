@@ -2,12 +2,12 @@
 
 import logging as lg
 
-# import redis
+import importlib
 
 import tomlkit
 from flask import Flask
 from flask_restful import Api
-from flask_jwt_extended import JWTManager
+# from flask_jwt_extended import JWTManager
 
 # import re
 
@@ -34,8 +34,12 @@ class BoardServer:
 
         # configure server
         self.app = Flask(self.config["server"]["name"])
-        self.jtw = JWTManager(self.app)
+        # self.jtw = JWTManager(self.app)
         self.api = Api(self.app)
+
+        # load plugins
+        self.external_plugins: list = list()
+        self.load_plugins()
 
         lg.debug("adding resource points")
         self.api.add_resource(
@@ -59,6 +63,20 @@ class BoardServer:
             }
         )
 
+    def _load_plugins(self, plugin_mod, plugin_conf):
+        # do the real plugin init and stuff
+        pass
+
+    def load_plugins(self, plugin_dir=None, plugin_conf: dir = None):
+        if plugin_dir:
+            self.external_plugins.append(importlib.import_module(plugin_dir))
+            self._load_plugins(self.external_plugins[-1], plugin_conf)
+
+        for plugin_name, plugin_conf in self.config["plugins"].items():
+            if not plugin_conf["activate"]:
+                continue
+            # load plugin
+            raise NotImplementedError()
 
     def run(self):
         lg.info("starting server")

@@ -9,7 +9,9 @@ import logging as lg
 
 
 class TimePlugin(ConfigLoader, BoardLinker):
-    def __init__(self, config_file: str, board):
+    # TODO: get the board linker to link outside of the class for all once \
+    # TODO: and then populate classes like this with (classwrapper???)
+    def __init__(self, board, config_file: str):
         ConfigLoader.__init__(self, config_file)
         # TODO: some better dynamic linking
         BoardLinker.__init__(self, board=board)

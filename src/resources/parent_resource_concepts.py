@@ -6,6 +6,9 @@ class ContentResource(Resource):
         super().__init__()
         self.board = board
 
+    # TODO: make this a class wrapper
+    # TODO: move flask_restful.Resource to the resource files
+
 
 class ConfigResource(Resource):
     pass
