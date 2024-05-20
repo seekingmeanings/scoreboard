@@ -2,7 +2,7 @@
 
 import tomlkit
 import logging as lg
-from src.board_header.mcp23017_h import BoardMCP23017
+from board_header.mcp23017 import BoardMCP23017
 
 from src.things.activator import LED
 
@@ -11,7 +11,7 @@ class Scoreboard:
     # TODO: clean up the stupid dict for iters
     def __init__(self, chiffres_config_file: str, board_config_file: str = None) -> None:
         self.digits = None
-        self.boards = None
+        self.boards: dict = dict()
         self.config = None
         self.chiffres = dict()
         self.board_config_file = board_config_file
@@ -23,12 +23,11 @@ class Scoreboard:
     def create_boards(self):
         # TODO: this has to go somewhere else, this class should not be specific
         # TODO: or maybe the functions dont belong to this class
-        self.boards = dict()
-        for board in self.config["boards"]:
+        for board_name, board_obj in self.config["boards"].items():
             # TODO: assign right board type (need to finish the resource stuff)
-            self.boards[board] = BoardMCP23017(
-                name=board,
-                address=self.config["boards"][board]["address"],
+            self.boards[board_name] = BoardMCP23017(
+                name=board_name,
+                address=board_obj["address"],
             )
 
     def setup_chiffres(self):

@@ -1,11 +1,12 @@
-flask
+flask~=3.0.3
 flask_restful
 # flask_jwt_extended
 
-mcp23017
+mcp23017~=1.1.0
 
-tomlkit
+tomlkit~=0.12.5
 
 
-public
+public~=2020.12.3
 click
+smbus~=1.1.post2
