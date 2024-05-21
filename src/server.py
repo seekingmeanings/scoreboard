@@ -9,16 +9,13 @@ from flask import Flask
 from flask_restful import Api
 # from flask_jwt_extended import JWTManager
 
-# import re
-
 # import environment stuff
-from src.resources.single_led_toggle import StateAccess
 from src.resources.digit import DisplayDigitAccess, BoardAccess, LEDAccess
 from src.scoreboard import Scoreboard
 
 
 class BoardServer:
-    def __init__(self, config_file: str):
+    def __init__(self, config_file: str, virtual: bool = False):
         lg.debug("server instance init called")
 
         lg.info(f"loading config file: {config_file}")
@@ -30,7 +27,7 @@ class BoardServer:
         self.board = Scoreboard(
             chiffres_config_file=self.config["configs"]["chiffres"],
             board_config_file=self.config["configs"]["board_layout"],
-            virtual=self.config["virtual"]
+            virtual=virtual
         )
 
         # configure server
@@ -85,14 +82,13 @@ class BoardServer:
         self.app.run(host="localhost", port=6969)
 
 
-def main():
+def main(args):
     lg.basicConfig(level="DEBUG")
-
-
 
     lg.debug(f"starting instance")
 
     server_instance = BoardServer(
         config_file="config.toml",
+        virtual=args.virtual
     )
     server_instance.run()
