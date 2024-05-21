@@ -29,7 +29,8 @@ class BoardServer:
         # self.thing = DummyVirtualThing()
         self.board = Scoreboard(
             chiffres_config_file=self.config["configs"]["chiffres"],
-            board_config_file=self.config["configs"]["board_layout"]
+            board_config_file=self.config["configs"]["board_layout"],
+            virtual=self.config["virtual"]
         )
 
         # configure server
@@ -39,7 +40,7 @@ class BoardServer:
 
         # load plugins
         self.external_plugins: list = list()
-        self.load_plugins()
+        # TODO: self.load_plugins()
 
         lg.debug("adding resource points")
         # TODO: link them dynamic with the help of config and themselves
@@ -74,7 +75,7 @@ class BoardServer:
             self._load_plugins(self.external_plugins[-1], plugin_conf)
 
         for plugin_name, plugin_conf in self.config["plugins"].items():
-            if not plugin_conf["activate"]:
+            if not plugin_conf["active"]:
                 continue
             # load plugin
             raise NotImplementedError()
@@ -86,6 +87,8 @@ class BoardServer:
 
 def main():
     lg.basicConfig(level="DEBUG")
+
+
 
     lg.debug(f"starting instance")
 
