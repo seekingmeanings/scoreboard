@@ -1,0 +1,18 @@
+[server]
+name = "scoreboard"
+
+[api]
+ip = false
+port = 6969
+
+[configs]
+board_layout = "config/board_layout.toml"
+chiffres = "config/chiffres.toml"
+
+
+[plugins]
+dir = "./plugins"
+
+[plugins.time]
+active = true
+auto_start = true

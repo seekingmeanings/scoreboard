@@ -1,0 +1,9 @@
+[boards.board0]
+address = 0x20
+type = "mcp23017"
+
+[[activator.one]]
+id = "digit0"
+
+[activator.one.connections]
+"A" = "board0.GPA0"
