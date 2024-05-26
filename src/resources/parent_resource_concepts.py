@@ -11,4 +11,5 @@ class ContentResource(Resource):
 
 
 class ConfigResource(Resource):
-    pass
+    def __init__(self, config) -> None:
+        pass

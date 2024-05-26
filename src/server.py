@@ -11,6 +11,8 @@ from flask_restful import Api
 
 # import environment stuff
 from src.resources.digit import DisplayDigitAccess, BoardAccess, LEDAccess
+from src.resources.test import TestAccess
+
 from src.scoreboard import Scoreboard
 
 
@@ -49,7 +51,7 @@ class BoardServer:
         )
         self.api.add_resource(
             BoardAccess,
-            "/rest" + "/board",
+            "/rest" + "/board-state",
             resource_class_kwargs={
                 "board": self.board
             }
@@ -60,6 +62,10 @@ class BoardServer:
             resource_class_kwargs={
                 "board": self.board
             }
+        )
+        self.api.add_resource(
+            TestAccess,
+            "/rest" + "/ping"
         )
 
     def _load_plugins(self, plugin_mod, plugin_conf):
