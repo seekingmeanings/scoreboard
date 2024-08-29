@@ -4,16 +4,17 @@ import logging as lg
 
 import importlib
 
+import flask_cors
 import tomlkit
 from flask import Flask
 from flask_restful import Api
 # from flask_jwt_extended import JWTManager
 
 # import environment stuff
-from src.resources.digit import DisplayDigitAccess, BoardAccess, LEDAccess
-from src.resources.test import TestAccess
+from src.api.digit import DisplayDigitAccess, BoardAccess, LEDAccess
+from src.api.test import TestAccess
 
-from src.scoreboard import Scoreboard
+from src.things.scoreboard.scoreboard import Scoreboard
 
 
 class BoardServer:
@@ -36,6 +37,8 @@ class BoardServer:
         self.app = Flask(self.config["server"]["name"])
         # self.jtw = JWTManager(self.app)
         self.api = Api(self.app)
+
+        flask_cors.CORS(self.app)
 
         # load plugins
         self.external_plugins: list = list()
