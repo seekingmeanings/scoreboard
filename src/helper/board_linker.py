@@ -1,4 +1,4 @@
-from src.scoreboard import Scoreboard
+from src.things.scoreboard.scoreboard import Scoreboard
 
 
 class BoardLinker:
