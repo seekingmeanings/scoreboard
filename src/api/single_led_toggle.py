@@ -1,7 +1,7 @@
 from flask_restful import reqparse
 from flask import jsonify
 
-from src.resources.parent_resource_concepts import ContentResource
+from src.api.parent_resource_concepts import ContentResource
 import logging as lg
 
 
