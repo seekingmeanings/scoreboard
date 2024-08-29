@@ -16,3 +16,4 @@ dir = "./plugins"
 [plugins.time]
 active = true
 auto_start = true
+config_file = "plugins/time/config.toml"

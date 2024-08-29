@@ -13,6 +13,7 @@ mcp23017 = "^1.1.0"
 public = "^2020.12.3"
 tomlkit = "^0.12.5"
 click = "^8.1.7"
+flask-cors = "^4.0.1"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.2.1"
