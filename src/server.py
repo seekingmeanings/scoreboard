@@ -47,14 +47,15 @@ class BoardServer:
         lg.debug("adding resource points")
         # TODO: link them dynamic with the help of config and themselves
         self.api.add_resource(
-            DisplayDigitAccess, "/rest" + "/display",
+            DisplayDigitAccess,
+            "/rest" + "/display",
             resource_class_kwargs={
                 "board": self.board
             }
         )
         self.api.add_resource(
             BoardAccess,
-            "/rest" + "/board-state",
+            "/rest" + "/board",
             resource_class_kwargs={
                 "board": self.board
             }
