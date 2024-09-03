@@ -1,10 +1,21 @@
-from src.api.parent_resource_concepts import ContentResource
+from src.api.parent_resource_concepts import (
+    PopulateApiResource, register_api_endpoint,
+    add_resource
+)
 from flask_restful import reqparse, request
 from flask import jsonify
 import logging as lg
 
+"""
+OMGOMG
 
-class DisplayDigitAccess(ContentResource):
+DONT IMPORT FROM THE PARENT RES CONCEPTS
+BUT IMPORT THE INSTANCE OF THE SERVER•PY FILESEEEEE
+
+"""
+
+
+class DisplayDigitAccess(PopulateApiResource):
     def post(self):
         p = reqparse.RequestParser()
         p.add_argument("digit", required=True, location="args", type=str)
@@ -18,12 +29,14 @@ class DisplayDigitAccess(ContentResource):
             return "invalid op", 500
 
 
-class BoardAccess(ContentResource):
+@add_resource({'board': 'board'})
+@register_api_endpoint('/board')
+class BoardAccess(PopulateApiResource):
     def get(self):
         return jsonify(self.board.get_board_state())
 
 
-class LEDAccess(ContentResource):
+class LEDAccess(PopulateApiResource):
     def get(self):
         p = reqparse.RequestParser()
         p.add_argument("digit", required=True, location="args", type=str)
