@@ -11,8 +11,9 @@ from flask_restful import Api
 # from flask_jwt_extended import JWTManager
 
 # import environment stuff
-from src.api.digit import DisplayDigitAccess, BoardAccess, LEDAccess
-from src.api.test import TestAccess
+from src.api.parent_resource_concepts import ApiEndpointManager
+from src.api.endpoints.digit import DisplayDigitAccess, BoardAccess, LEDAccess
+from src.api.endpoints.test import TestAccess
 
 from src.things.scoreboard.scoreboard import Scoreboard
 
@@ -27,11 +28,12 @@ class BoardServer:
 
         # create working environment
         # self.thing = DummyVirtualThing()
-        self.board = Scoreboard(
+
+        self.resources = {"board": Scoreboard(
             chiffres_config_file=self.config["configs"]["chiffres"],
             board_config_file=self.config["configs"]["board_layout"],
             virtual=virtual
-        )
+        )}
 
         # configure server
         self.app = Flask(self.config["server"]["name"])
@@ -46,30 +48,36 @@ class BoardServer:
 
         lg.debug("adding resource points")
         # TODO: link them dynamic with the help of config and themselves
+
+        tmpurl = "/rest"
+
+        self.api_manager = ApiEndpointManager(self.api, self.resources)
+
+
         self.api.add_resource(
             DisplayDigitAccess,
-            "/rest" + "/display",
+            tmpurl + "/display",
             resource_class_kwargs={
-                "board": self.board
+                "board": self.resources["board"]
             }
         )
         self.api.add_resource(
             BoardAccess,
-            "/rest" + "/board",
+            tmpurl + "/board",
             resource_class_kwargs={
-                "board": self.board
+                "board": self.resources["board"]
             }
         )
         self.api.add_resource(
             LEDAccess,
-            "/rest" + "/led",
+            tmpurl + "/led",
             resource_class_kwargs={
-                "board": self.board
+                "board": self.resources["board"]
             }
         )
         self.api.add_resource(
             TestAccess,
-            "/rest" + "/ping"
+            tmpurl + "/ping"
         )
 
     def _load_plugins(self, plugin_mod, plugin_conf):
@@ -101,4 +109,8 @@ def main(args):
         config_file="config.toml",
         virtual=args.virtual
     )
+
     server_instance.run()
+
+
+i_dont_wanna_use_globals_but_fuck_idk_how = None
