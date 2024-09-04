@@ -57,3 +57,6 @@ class LEDAccess(Resource):
         args = p.parse_args()
 
         self.board.digits[args.digit][args.led_id].state = bool(args.state)
+
+
+print("IMPORTED DIGIT•PY")

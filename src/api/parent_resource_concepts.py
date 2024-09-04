@@ -1,3 +1,5 @@
+import importlib
+
 import flask_restful
 import functools
 import ast
@@ -38,11 +40,17 @@ class ApiEndpointManager:
         self.api = api
         self.resource = resources
 
-    def auto_add_endpoints(self):
+    @staticmethod
+    def import_endpoint_module(module: str) -> None:
+        importlib.import_module(module)
+        import src.api.endpoints
+
+    def auto_add_endpoints(self) -> None:
         import src.api.endpoints
         print("added endpoints module")
         endpoints = wrap_scan.find_wrappers_in_module_path(src.api.endpoints)
 
+        return
         for endpoint in endpoints:
             for decorator in [ast.parse(dec_str, mode='eval') for dec_str in endpoint['decorators']]:
                 print(decorator)
@@ -55,6 +63,7 @@ class ApiEndpointManager:
                       url: str = None
                       ):
         sself = self
+        print("called the decorator")
 
         def decorator(cls):
             class WrappedClass(cls):

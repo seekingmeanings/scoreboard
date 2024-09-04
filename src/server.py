@@ -52,6 +52,11 @@ class BoardServer:
 
         # have to call that explicitly so the init is finished
         self.api_manager = ApiEndpointManager(self.api, self.resources)
+        self.api_manager.import_endpoint_module("src.api.endpoints")
+
+        print("old method")
+        self.api_manager.auto_add_endpoints()
+
 
     def _load_plugins(self, plugin_mod, plugin_conf):
         # do the real plugin init and stuff
