@@ -52,7 +52,8 @@ class BoardServer:
         self.api.base_url = "/rest"
         tmpurl = "/rest"
 
-        self.api_manager = ApiEndpointManager(self.api, self.resources)
+        self.api_manager = ApiEndpointManager(self.api, self.resources).add_endpoints()
+        # have to call that explicitly so the init is finished
         print(self.api.urls)
 
         # self.api.add_resource(

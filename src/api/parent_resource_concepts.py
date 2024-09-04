@@ -1,4 +1,4 @@
-from flask_restful import Resource
+import flask_restful
 import functools
 import ast
 
@@ -29,7 +29,8 @@ class ApiEndpointManager:
 
     @singleton_init
     def __init__(
-            self, api,
+            self,
+            api: flask_restful.Api,
             #endpoint_modules: list,
             resources
     ):
@@ -37,17 +38,14 @@ class ApiEndpointManager:
         self.api = api
         self.resource = resources
 
-        self._templeate()
-
-    def _templeate(self):
+    def add_endpoints(self):
         import src.api.endpoints
-        endpoints = wrap_scan.find_wrappers_in_module_path(
-                wrap_scan.get_module_path(src.api.endpoints)
-        )
+        endpoints = wrap_scan.find_wrappers_in_module_path(src.api.endpoints)
 
         for endpoint in endpoints:
+            print(endpoint)
             for decorator in [ast.parse(dec_str, mode='eval') for dec_str in endpoint['decorators']]:
-                print(wrap_scan.extract_values(decorator))
+                print(decorator)
 
 
 
@@ -66,7 +64,7 @@ class ApiEndpointManager:
             class WrappedClass(cls):
                 print("lelelengfeagieg")
                 def __init__(self, *args, **kwargs):
-                    super().__init__(*args, kwargs)
+                    super().__init__(*args, **kwargs)
                     if resources:
                         for name, res_name in resources.items():
                             setattr(
@@ -92,7 +90,7 @@ class ResourceManager:
     pass
 
 
-class PopulateApiResource(Resource):
+class PopulateApiResource(flask_restful.Resource):
     def __init__(self, board) -> None:
         print("INNNNNIOTTTTTT")
         super().__init__()
@@ -121,6 +119,6 @@ def add_resource(cls):
     return wrapper
 
 
-class ConfigResource(Resource):
+class ConfigResource(flask_restful.Resource):
     def __init__(self, config) -> None:
         pass

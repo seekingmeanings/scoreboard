@@ -1,4 +1,5 @@
-import os
+import importlib.util
+import os, sys
 import ast
 
 
@@ -51,25 +52,46 @@ def extract_values(cmp_node):
     }
 
 
-
 def file_wrapped_classes_in_file_path(file_path):
     with open(file_path, "r") as source:
         tree = ast.parse(source.read())
 
     wrapped_classes = []
 
-    for node in ast.walk(tree):
-        if isinstance(node, ast.ClassDef):
-            if node.decorator_list:
-                class_info = {
-                    "class_name": node.name,
-                    "decorators": [ast.dump(decorator) for decorator in node.decorator_list]
-                }
-                wrapped_classes.append(class_info)
+    # get name and dir
+    module_name = os.path.splitext(os.path.basename(file_path))[0]
+    module_dir = os.path.dirname(file_path)
+
+    # Temporarily add the module directory to sys.path for importing
+    sys.path.insert(0, module_dir)
+
+    try:
+        # import module
+        spec = importlib.util.spec_from_file_location(module_name, file_path)
+        module = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(module)
+
+        for node in ast.walk(tree):
+            if isinstance(node, ast.ClassDef):
+                if node.decorator_list:
+                    class_name = node.name
+                    class_obj = getattr(module, class_name, None)
+
+                    class_info = {
+                        "class_name": class_name,
+                        "class": class_obj,
+                        "decorators": [ast.dump(decorator) for decorator in node.decorator_list]
+                    }
+                    wrapped_classes.append(class_info)
+
+    finally:
+        sys.path.pop(0)
     return wrapped_classes
 
 
-def find_wrappers_in_module_path(module_path):
+def find_wrappers_in_module_path(module):
+    module_path = os.path.dirname(module.__file__) if module is not str else module
+
     wrapped_classes = []
 
     for root, dirs, files in os.walk(module_path):
@@ -79,7 +101,3 @@ def find_wrappers_in_module_path(module_path):
                 wrapped_classes.extend(file_wrapped_classes_in_file_path(file_path))
 
     return wrapped_classes
-
-
-def get_module_path(module):
-    return os.path.dirname(module.__file__)
