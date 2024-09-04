@@ -82,10 +82,3 @@ class ApiEndpointManager:
                 )
 
         return decorator
-
-
-
-
-class ConfigResource(flask_restful.Resource):
-    def __init__(self, config) -> None:
-        pass
