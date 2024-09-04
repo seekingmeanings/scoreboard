@@ -51,7 +51,7 @@ class BoardServer:
         tmpurl = "/rest"
 
         # have to call that explicitly so the init is finished
-        self.api_manager = ApiEndpointManager(self.api, self.resources).auto_add_endpoints()
+        self.api_manager = ApiEndpointManager(self.api, self.resources)
 
     def _load_plugins(self, plugin_mod, plugin_conf):
         # do the real plugin init and stuff
