@@ -42,6 +42,8 @@ class ApiEndpointManager:
 
     @staticmethod
     def import_endpoint_module(module: str) -> None:
+
+        # TODO: every file has to be imported, or the __init__.py has to take care
         importlib.import_module(module)
         import src.api.endpoints
 

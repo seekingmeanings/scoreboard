@@ -5,6 +5,10 @@ from flask import jsonify
 import logging as lg
 
 
+@ApiEndpointManager().add_resources(
+    {'board': "board"},
+    "/display"
+)
 class DisplayDigitAccess(Resource):
     def post(self):
         p = reqparse.RequestParser()
