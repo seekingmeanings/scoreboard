@@ -38,8 +38,9 @@ class ApiEndpointManager:
         self.api = api
         self.resource = resources
 
-    def add_endpoints(self):
+    def auto_add_endpoints(self):
         import src.api.endpoints
+        print("added endpoints module")
         endpoints = wrap_scan.find_wrappers_in_module_path(src.api.endpoints)
 
         for endpoint in endpoints:
@@ -59,10 +60,7 @@ class ApiEndpointManager:
         sself = self
 
         def decorator(cls):
-            f = open("/home/j/wtf.man", "w")
-            sself.test = "4ng4n4ng4"
             class WrappedClass(cls):
-                print("lelelengfeagieg")
                 def __init__(self, *args, **kwargs):
                     super().__init__(*args, **kwargs)
                     if resources:
@@ -74,14 +72,14 @@ class ApiEndpointManager:
                             )
 
             if url:
+                # does it init itself??
+                print(url)
+                print(WrappedClass)
                 sself.api.add_resource(
                     WrappedClass,
                     sself.api.base_url + url,
+                    endpoint=f"{cls.__name__.lower()}_endpoint"
                 )
-            f.write(f"url: {url}")
-            f.write(f"resources: {resources}")
-            f.close()
-            return WrappedClass
 
         return decorator
 

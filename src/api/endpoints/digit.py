@@ -40,6 +40,10 @@ class BoardAccess(Resource):
         return jsonify(self.board.get_board_state())
 
 
+@ApiEndpointManager().add_resources(
+    {'board': 'board'},
+    "/led"
+)
 class LEDAccess(PopulateApiResource):
     def get(self):
         p = reqparse.RequestParser()
@@ -53,7 +57,7 @@ class LEDAccess(PopulateApiResource):
         p = reqparse.RequestParser()
         p.add_argument("digit", required=True, location="args", type=str)
         p.add_argument("led_id", location="args", type=str, required=True)
-        p.add_argument("state", required= True, location="args", type=bool)
+        p.add_argument("state", required=True, location="args", type=bool)
         args = p.parse_args()
 
         self.board.digits[args.digit][args.led_id].state = bool(args.state)
