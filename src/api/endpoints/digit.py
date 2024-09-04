@@ -4,14 +4,6 @@ from flask_restful import reqparse, request, Resource
 from flask import jsonify
 import logging as lg
 
-"""
-OMGOMG
-
-DONT IMPORT FROM THE PARENT RES CONCEPTS
-BUT IMPORT THE INSTANCE OF THE SERVER•PY FILESEEEEE
-
-"""
-
 
 class DisplayDigitAccess(Resource):
     def post(self):
@@ -57,6 +49,3 @@ class LEDAccess(Resource):
         args = p.parse_args()
 
         self.board.digits[args.digit][args.led_id].state = bool(args.state)
-
-
-print("IMPORTED DIGIT•PY")
