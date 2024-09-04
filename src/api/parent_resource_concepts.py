@@ -84,35 +84,6 @@ class ApiEndpointManager:
         return decorator
 
 
-class ResourceManager:
-    pass
-
-
-class PopulateApiResource(flask_restful.Resource):
-    def __init__(self, board) -> None:
-        print("INNNNNIOTTTTTT")
-        super().__init__()
-        self.board = board
-
-    # TODO: move flask_restful.Resource to the resource files (Why?)
-
-
-def register_api_endpoint(cls):
-    @functools.wraps(cls)
-    def wrapper(*args, **kwargs):
-        instance = cls(*args, **kwargs)
-        return instance
-
-    return wrapper
-
-
-def add_resource(cls):
-    @functools.wraps(cls)
-    def wrapper(*args, **kwargs):
-        inst = cls(*args, **kwargs)
-        return inst
-
-    return wrapper
 
 
 class ConfigResource(flask_restful.Resource):
