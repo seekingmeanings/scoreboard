@@ -52,7 +52,6 @@ class ApiEndpointManager:
         print("added endpoints module")
         endpoints = wrap_scan.find_wrappers_in_module_path(src.api.endpoints)
 
-        return
         for endpoint in endpoints:
             for decorator in [ast.parse(dec_str, mode='eval') for dec_str in endpoint['decorators']]:
                 print(decorator)
@@ -62,7 +61,7 @@ class ApiEndpointManager:
     # so it can be a subclass of flask_restful.api ??????????????s
     def add_resources(self,
                       resources: dict = None,
-                      url: str = None
+                      url: str = None,
                       ):
         sself = self
         print("called the decorator")
