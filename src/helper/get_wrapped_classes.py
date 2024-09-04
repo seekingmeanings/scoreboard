@@ -1,6 +1,7 @@
-import importlib.util
-import os, sys
 import ast
+import importlib.util
+import os
+import sys
 
 
 def extract_values(cmp_node):
