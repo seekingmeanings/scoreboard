@@ -2,6 +2,56 @@ import os
 import ast
 
 
+def extract_values(cmp_node):
+    node = cmp_node.body
+    id_value: str
+    attr_value: str
+    args = []
+    kwargs = {}
+
+    if not isinstance(node, ast.Call):
+        raise TypeError(f"cant parse {type(node)} as an ast.Call obj")
+
+    # get the id and stuff
+    id_value = node.keywords[0].value.keywords[0].value.keywords[0].value.keywords[0].value.value
+
+    attr_value = node.keywords[0].value.keywords[1].value.value
+
+    def parse_vals(val_tree):
+        if val_tree.func.id == 'Dict':
+            keys = [key.keywords[0].value.value for key in
+                    val_tree.keywords[0].value.elts
+                    ]
+
+            values = [value.keywords[0].value.value for value in
+                      val_tree.keywords[1].value.elts
+
+                      ]
+
+            return dict(zip(keys, values))
+        elif val_tree.func.id == 'Constant':
+            return val_tree.keywords[0].value.value
+
+        else:
+            raise NotImplementedError(f"just dont use keyword arguments pls in the decorator")
+
+    args = [parse_vals(arg) for arg in node.keywords[1].value.elts]
+
+    # TODO: make it intelligent with scanning
+
+    # parse any kwargs
+    for kwarg in node.keywords[2].value.elts:
+        raise NotImplementedError("im to lazy")
+
+    return {
+        'id': id_value,
+        'wrapper_name': attr_value,
+        'args': args,
+        'kwargs': kwargs,
+    }
+
+
+
 def file_wrapped_classes_in_file_path(file_path):
     with open(file_path, "r") as source:
         tree = ast.parse(source.read())
