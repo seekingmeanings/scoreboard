@@ -12,8 +12,6 @@ from flask_restful import Api
 
 # import environment stuff
 from src.api.parent_resource_concepts import ApiEndpointManager
-# from src.api.endpoints.digit import DisplayDigitAccess, BoardAccess, LEDAccess
-# from src.api.endpoints.test import TestAccess
 
 from src.things.scoreboard.scoreboard import Scoreboard
 
@@ -52,34 +50,8 @@ class BoardServer:
         self.api.base_url = "/rest"
         tmpurl = "/rest"
 
-        self.api_manager = ApiEndpointManager(self.api, self.resources).auto_add_endpoints()
         # have to call that explicitly so the init is finished
-
-        # self.api.add_resource(
-        #     DisplayDigitAccess,
-        #     tmpurl + "/display",
-        #     resource_class_kwargs={
-        #         "board": self.resources["board"]
-        #     }
-        # )
-        # self.api.add_resource(
-        #     BoardAccess,
-        #     tmpurl + "/board",
-        #     resource_class_kwargs={
-        #         "board": self.resources["board"]
-        #     }
-        # )
-        # self.api.add_resource(
-        #     LEDAccess,
-        #     tmpurl + "/led",
-        #     resource_class_kwargs={
-        #         "board": self.resources["board"]
-        #     }
-        # )
-        # self.api.add_resource(
-        #     TestAccess,
-        #     tmpurl + "/ping"
-        # )
+        self.api_manager = ApiEndpointManager(self.api, self.resources).auto_add_endpoints()
 
     def _load_plugins(self, plugin_mod, plugin_conf):
         # do the real plugin init and stuff

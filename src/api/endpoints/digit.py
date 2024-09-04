@@ -1,9 +1,5 @@
-from src.api.parent_resource_concepts import (
-    ApiEndpointManager,
+from src.api.parent_resource_concepts import ApiEndpointManager
 
-    PopulateApiResource, register_api_endpoint,
-    add_resource
-)
 from flask_restful import reqparse, request, Resource
 from flask import jsonify
 import logging as lg
@@ -17,7 +13,7 @@ BUT IMPORT THE INSTANCE OF THE SERVER•PY FILESEEEEE
 """
 
 
-class DisplayDigitAccess(PopulateApiResource):
+class DisplayDigitAccess(Resource):
     def post(self):
         p = reqparse.RequestParser()
         p.add_argument("digit", required=True, location="args", type=str)
@@ -44,7 +40,7 @@ class BoardAccess(Resource):
     {'board': 'board'},
     "/led"
 )
-class LEDAccess(PopulateApiResource):
+class LEDAccess(Resource):
     def get(self):
         p = reqparse.RequestParser()
         p.add_argument("digit", required=True, location="args", type=str)
