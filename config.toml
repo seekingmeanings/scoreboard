@@ -11,9 +11,9 @@ characters = "config/characters.toml"
 
 
 [plugins]
-dir = "./src/plugins"
+dir = "src.plugins"
 
-[plugins.time]
+[plugins.p.time]
 active = true
 auto_start = true
-config_file = "/time/config.toml"
+config_file = "time/config.toml"

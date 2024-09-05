@@ -2,6 +2,7 @@
 
 import tomlkit
 import logging as lg
+# TODO: make self overlay of the lib that supports both with a flag
 from board_header.mcp23017 import BoardMCP23017
 from board_header.virtual_mcp23017 import VirtualMCP23017
 

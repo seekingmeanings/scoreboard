@@ -40,36 +40,43 @@ class BoardServer:
 
         flask_cors.CORS(self.app)
 
+        self.api_manager = ApiEndpointManager(self.api, self.resources)
+
         # load plugins
         self.external_plugins: list = list()
-        # TODO: self.load_plugins()
+        self.load_plugins_from_conf(
+            self.config['plugins']
+        )
 
-        lg.debug("adding resource points")
+        lg.debug("adding internal api  endpoints")
         # TODO: link them dynamic with the help of config and themselves
 
         self.api.base_url = "/rest"
-        tmpurl = "/rest"
 
-        self.api_manager = ApiEndpointManager(self.api, self.resources)
         # have to call that explicitly so the init is finished
         # TODO: make that from config
         self.api_manager.import_endpoint_module("src.api.endpoints")
 
-
-    def _load_plugins(self, plugin_mod, plugin_conf):
+    def load_plugin(self, plugin_mod, plugin_conf):
         # do the real plugin init and stuff
-        pass
+        print(plugin_mod)
+        print(plugin_conf)
 
-    def load_plugins(self, plugin_dir=None, plugin_conf: dir = None):
-        if plugin_dir:
-            self.external_plugins.append(importlib.import_module(plugin_dir))
-            self._load_plugins(self.external_plugins[-1], plugin_conf)
+        # autostart
 
-        for plugin_name, plugin_conf in self.config["plugins"].items():
-            if not plugin_conf["active"]:
-                continue
-            # load plugin
-            raise NotImplementedError()
+    def load_plugins_from_conf(self, plugin_conf_head: dir):
+        # TODO: should they all be in the config, or can they be loaded by just the plugin dir???
+        for plugin_name, plugin_conf in plugin_conf_head["p"].items():
+            self.external_plugins.append(
+                importlib.import_module(
+                    name=f".{plugin_name}",
+                    package=plugin_conf_head['dir']
+                )
+            )
+
+            print(plugin_conf['active'])
+            if 'active' in plugin_conf and plugin_conf['active'] is True:
+                self.load_plugin(self.external_plugins[-1], plugin_conf)
 
     def run(self):
         lg.info("starting server")
