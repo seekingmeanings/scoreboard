@@ -87,6 +87,3 @@ def main(args):
     )
 
     server_instance.run()
-
-
-i_dont_wanna_use_globals_but_fuck_idk_how = None
