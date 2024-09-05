@@ -9,9 +9,13 @@ from src.things.activator import LED
 
 
 class Scoreboard:
+    """
+    This class is the data class that modifies
+    the actual scoreboard
+    """
     # TODO: clean up the stupid dict for iters
     def __init__(
-            self, chiffres_config_file: str,
+            self, character_config_file: str,
             board_config_file: str = None,
             virtual: bool = False,
     ) -> None:
@@ -19,9 +23,9 @@ class Scoreboard:
         self.digits = None
         self.boards: dict = dict()
         self.config: dict = None
-        self.chiffres = dict()
+        self.character = dict()
         self.board_config_file = board_config_file
-        self.chiffres_config_file = chiffres_config_file
+        self.character_config_file = character_config_file
 
         self.load_config()
         self.create_structure()
@@ -43,9 +47,10 @@ class Scoreboard:
                 address=board_obj["address"],
             )
 
-    def setup_chiffres(self):
-        for number in self.chiffres_config["numbers"]:
-            self.chiffres[int(number)] = set(self.chiffres_config["numbers"][number])
+    def setup_characters(self):
+        # TODO: why isnt that called??
+        for number in self.characters_conf["numbers"]:
+            self.character[int(number)] = set(self.characters_conf["numbers"][number])
 
     def create_structure(self):
         self.create_boards()
@@ -64,17 +69,17 @@ class Scoreboard:
                             constants=self.boards[brd].stupid_place_to_put_consts_ffs
                         )
 
-    def load_config(self, board_config_file: str = None, chiffres_config_file: str = None):
+    def load_config(self, board_config_file: str = None, characters_config_file: str = None):
         # TODO: maybe this can call all the other functions to refresh runtime
         self.board_config_file = board_config_file if board_config_file else self.board_config_file
-        self.chiffres_config_file = chiffres_config_file if chiffres_config_file else self.chiffres_config_file
+        self.character_config_file = characters_config_file if characters_config_file else self.character_config_file
 
         with open(self.board_config_file, 'r') as file:
             self.config = tomlkit.load(file)
 
-        with open(self.chiffres_config_file, 'r') as file:
-            self.chiffres_conf = tomlkit.load(file)
-            self.chiffres = self.chiffres_conf["numbers"]
+        with open(self.character_config_file, 'r') as file:
+            self.characters_conf = tomlkit.load(file)
+            self.character = self.characters_conf["numbers"]
 
     def display_char(self, digit_id, character: str | int = None):
         if type(character) == str:
@@ -99,12 +104,12 @@ class Scoreboard:
             character = str(character)
 
             lg.debug(f"{digit}")
-            off_chars = (set(self.chiffres_conf["other"]["all"]) - set(self.chiffres[character]))
+            off_chars = (set(self.characters_conf["other"]["all"]) - set(self.character[character]))
             lg.debug(f"{off_chars}")
 
             # activate the leds
             if type(character) is str:
-                for led in self.chiffres[character]:
+                for led in self.character[character]:
                     digit[led].on()
 
                 for led in off_chars:
@@ -115,7 +120,7 @@ class Scoreboard:
 
         except KeyError as e:
             raise ValueError(
-                f'the character "{character}" {type(character)}is not in {self.chiffres_config_file}'
+                f'the character "{character}" {type(character)}is not in {self.character_config_file}'
             ) from e
 
         except Exception as e:

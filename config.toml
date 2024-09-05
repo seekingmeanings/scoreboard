@@ -7,13 +7,13 @@ port = 6969
 
 [configs]
 board_layout = "config/board_layout.toml"
-chiffres = "config/chiffres.toml"
+characters = "config/characters.toml"
 
 
 [plugins]
-dir = "./plugins"
+dir = "./src/plugins"
 
 [plugins.time]
 active = true
 auto_start = true
-config_file = "plugins/time/config.toml"
+config_file = "/time/config.toml"

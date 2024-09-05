@@ -28,7 +28,7 @@ class BoardServer:
         # self.thing = DummyVirtualThing()
 
         self.resources = {"board": Scoreboard(
-            chiffres_config_file=self.config["configs"]["chiffres"],
+            character_config_file=self.config["configs"]["characters"],
             board_config_file=self.config["configs"]["board_layout"],
             virtual=virtual
         )}
