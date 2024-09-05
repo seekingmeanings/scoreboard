@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-
+import logging
 import logging as lg
 
 import importlib
@@ -32,6 +32,7 @@ class BoardServer:
             board_config_file=self.config["configs"]["board_layout"],
             virtual=virtual
         )}
+        lg.debug(self.resources)
 
         # configure server
         self.app = Flask(self.config["server"]["name"])

@@ -5,5 +5,10 @@ from src.api.parent_resource_concepts import ApiEndpointManager
 
 import logging as lg
 
-
-print("engvlfnegfvlnefvlnf")
+@ApiEndpointManager().add_resources(
+    resources={"board": "board"},
+    url="/board/layout"
+)
+class BoardLayoutAccess(flask_restful.Resource):
+    def get(self):
+        return

@@ -25,7 +25,7 @@ class DisplayDigitAccess(Resource):
 
 @ApiEndpointManager().add_resources(
     {'board': 'board'},
-    "/board"
+    "/board/state"
 )
 class BoardAccess(Resource):
     def get(self):
