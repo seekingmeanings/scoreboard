@@ -1,27 +1,38 @@
-#!/usr/bin/env python3
-
+from dataclasses import dataclass
+from typing import List, Dict, Union
 import tomlkit
 import logging as lg
+# TODO: make self overlay of the lib that supports both with a flag
 from board_header.mcp23017 import BoardMCP23017
 from board_header.virtual_mcp23017 import VirtualMCP23017
 
 from src.things.activator import LED
 
+from .digits import Digit
+
 
 class Scoreboard:
+    """
+    This class is the data class that modifies
+    the actual scoreboard
+    """
+
     # TODO: clean up the stupid dict for iters
     def __init__(
-            self, chiffres_config_file: str,
+            self, character_config_file: str,
             board_config_file: str = None,
             virtual: bool = False,
     ) -> None:
         self.virtual: bool = virtual
-        self.digits = None
-        self.boards: dict = dict()
+        self.digits: Dict[str, Scoreboard.Digit] = {}
+        self.boards: dict = {}
         self.config: dict = None
-        self.chiffres = dict()
+        self.character = {}
         self.board_config_file = board_config_file
-        self.chiffres_config_file = chiffres_config_file
+        self.character_config_file = character_config_file
+        self.segments: dict = {}
+
+        self.characters_conf = None
 
         self.load_config()
         self.create_structure()
@@ -43,40 +54,46 @@ class Scoreboard:
                 address=board_obj["address"],
             )
 
-    def setup_chiffres(self):
-        for number in self.chiffres_config["numbers"]:
-            self.chiffres[int(number)] = set(self.chiffres_config["numbers"][number])
+    def setup_characters(self):
+        # TODO: why isnt that called??
+        for number in self.characters_conf["numbers"]:
+            self.character[int(number)] = set(self.characters_conf["numbers"][number])
 
     def create_structure(self):
         self.create_boards()
         # create and link the leds
-        self.digits = dict()
-        for segment_group in self.config["activator"]:
-            for segment in self.config["activator"][segment_group]:
-                self.digits[segment["id"]] = {}
-                for connection in segment["connections"]:
-                    brd, gpio = str(segment["connections"][connection]).split(".")
-                    self.digits[segment["id"]][connection] = \
+        # TODO: this should be in the digit class not here
+        for segment_name in self.config["activator"]:
+            self.segments[segment_name] = []
+            for digit in self.config["activator"][segment_name]:
+                new_digit = Digit(id=digit["id"], type=digit['type'], connections={})
+                self.digits[digit["id"]] = new_digit
+                for connection in digit["connections"]:
+                    brd, gpio = str(digit["connections"][connection]).split(".")
+
+                    new_led =\
                         LED(
                             io_link=self.boards[brd].get_board_obj(),
                             pin=gpio,
                             name=connection,
                             constants=self.boards[brd].stupid_place_to_put_consts_ffs
                         )
+                    self.digits[digit["id"]].connections[connection] = new_led
+                self.segments[segment_name].append(new_digit)
 
-    def load_config(self, board_config_file: str = None, chiffres_config_file: str = None):
+    def load_config(self, board_config_file: str = None, characters_config_file: str = None):
         # TODO: maybe this can call all the other functions to refresh runtime
         self.board_config_file = board_config_file if board_config_file else self.board_config_file
-        self.chiffres_config_file = chiffres_config_file if chiffres_config_file else self.chiffres_config_file
+        self.character_config_file = characters_config_file if characters_config_file else self.character_config_file
 
         with open(self.board_config_file, 'r') as file:
             self.config = tomlkit.load(file)
 
-        with open(self.chiffres_config_file, 'r') as file:
-            self.chiffres_conf = tomlkit.load(file)
-            self.chiffres = self.chiffres_conf["numbers"]
+        with open(self.character_config_file, 'r') as file:
+            self.characters_conf = tomlkit.load(file)
+            self.character = self.characters_conf["numbers"]
 
-    def display_char(self, digit_id, character: str | int = None):
+    def display_char(self, digit_id, character: Union[str, int] = None):
         if type(character) == str:
             if not len(character) == 1:
                 raise OverflowError(f"only one character is allowed, got {character}")
@@ -85,7 +102,7 @@ class Scoreboard:
 
         try:
             # buffer the digit access
-            digit = self.digits[digit_id]
+            digit = self.digits[digit_id].connections
 
             # set everything off
             if character is None:
@@ -99,12 +116,12 @@ class Scoreboard:
             character = str(character)
 
             lg.debug(f"{digit}")
-            off_chars = (set(self.chiffres_conf["other"]["all"]) - set(self.chiffres[character]))
+            off_chars = (set(self.characters_conf["other"]["all"]) - set(self.character[character]))
             lg.debug(f"{off_chars}")
 
             # activate the leds
             if type(character) is str:
-                for led in self.chiffres[character]:
+                for led in self.character[character]:
                     digit[led].on()
 
                 for led in off_chars:
@@ -115,28 +132,8 @@ class Scoreboard:
 
         except KeyError as e:
             raise ValueError(
-                f'the character "{character}" {type(character)}is not in {self.chiffres_config_file}'
+                f'the character "{character}" {type(character)}is not in {self.character_config_file}'
             ) from e
 
         except Exception as e:
             raise RuntimeError from e
-
-    def get_board_state(self) -> dict[str, dict[str, bool]]:
-        """
-        Retrieve the current state of the board as a dictionary
-        containing the digits as the keys, and as vals
-        another dictionary containing dicts of led_id str and the state
-        :return:
-        """
-        ret = {}
-        for digit in self.digits:
-            ret[digit] = {}
-            for led in self.digits[digit]:
-                ret[digit][led] = self.digits[digit][led].state
-
-        # return ret
-
-        return {
-            digit: {led: led_obj.state for led, led_obj in leds.items()}
-            for digit, leds in self.digits.items()
-        }

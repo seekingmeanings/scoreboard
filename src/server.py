@@ -1,19 +1,19 @@
 #!/usr/bin/env python3
-
+import logging
 import logging as lg
 
 import importlib
 
+import flask_cors
 import tomlkit
 from flask import Flask
 from flask_restful import Api
 # from flask_jwt_extended import JWTManager
 
 # import environment stuff
-from src.resources.digit import DisplayDigitAccess, BoardAccess, LEDAccess
-from src.resources.test import TestAccess
+from src.api.parent_resource_concepts import ApiEndpointManager
 
-from src.scoreboard import Scoreboard
+from src.things.scoreboard.scoreboard import Scoreboard
 
 
 class BoardServer:
@@ -26,62 +26,58 @@ class BoardServer:
 
         # create working environment
         # self.thing = DummyVirtualThing()
-        self.board = Scoreboard(
-            chiffres_config_file=self.config["configs"]["chiffres"],
+
+        self.resources = {"board": Scoreboard(
+            character_config_file=self.config["configs"]["characters"],
             board_config_file=self.config["configs"]["board_layout"],
             virtual=virtual
-        )
+        )}
+        lg.debug(self.resources)
 
         # configure server
         self.app = Flask(self.config["server"]["name"])
         # self.jtw = JWTManager(self.app)
         self.api = Api(self.app)
 
+        flask_cors.CORS(self.app)
+
+        self.api_manager = ApiEndpointManager(self.api, self.resources)
+
         # load plugins
         self.external_plugins: list = list()
-        # TODO: self.load_plugins()
+        self.load_plugins_from_conf(
+            self.config['plugins']
+        )
 
-        lg.debug("adding resource points")
+        lg.debug("adding internal api  endpoints")
         # TODO: link them dynamic with the help of config and themselves
-        self.api.add_resource(
-            DisplayDigitAccess, "/rest" + "/display",
-            resource_class_kwargs={
-                "board": self.board
-            }
-        )
-        self.api.add_resource(
-            BoardAccess,
-            "/rest" + "/board-state",
-            resource_class_kwargs={
-                "board": self.board
-            }
-        )
-        self.api.add_resource(
-            LEDAccess,
-            "/rest" + "/led",
-            resource_class_kwargs={
-                "board": self.board
-            }
-        )
-        self.api.add_resource(
-            TestAccess,
-            "/rest" + "/ping"
-        )
 
-    def _load_plugins(self, plugin_mod, plugin_conf):
+        self.api.base_url = "/rest"
+
+        # have to call that explicitly so the init is finished
+        # TODO: make that from config
+        self.api_manager.import_endpoint_module("src.api.endpoints")
+
+    def load_plugin(self, plugin_mod, plugin_conf):
         # do the real plugin init and stuff
-        pass
+        print(plugin_mod)
+        print(plugin_conf)
 
-    def load_plugins(self, plugin_dir=None, plugin_conf: dir = None):
-        if plugin_dir:
-            self.external_plugins.append(importlib.import_module(plugin_dir))
-            self._load_plugins(self.external_plugins[-1], plugin_conf)
+        # autostart
 
-        for plugin_name, plugin_conf in self.config["plugins"].items():
-            if not plugin_conf["active"]:
-                continue
-            # load plugin
-            raise NotImplementedError()
+    def load_plugins_from_conf(self, plugin_conf_head: dir):
+        # TODO: should they all be in the config, or can they be loaded by just the plugin dir???
+        for plugin_name, plugin_conf in plugin_conf_head["p"].items():
+            self.external_plugins.append(
+                importlib.import_module(
+                    name=f".{plugin_name}",
+                    package=plugin_conf_head['dir']
+                )
+            )
+
+            print(plugin_conf['active'])
+            if 'active' in plugin_conf and plugin_conf['active'] is True:
+                self.load_plugin(self.external_plugins[-1], plugin_conf)
 
     def run(self):
         lg.info("starting server")
@@ -97,4 +93,5 @@ def main(args):
         config_file="config.toml",
         virtual=args.virtual
     )
+
     server_instance.run()

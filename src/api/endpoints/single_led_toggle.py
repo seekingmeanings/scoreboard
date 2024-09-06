@@ -1,11 +1,11 @@
-from flask_restful import reqparse
+from flask_restful import reqparse, Resource
 from flask import jsonify
 
-from src.resources.parent_resource_concepts import ContentResource
+from src.api.parent_resource_concepts import ApiEndpointManager
 import logging as lg
 
 
-class StateAccess(ContentResource):
+class StateAccess(Resource):
     def get(self):
         lg.debug(self.thing._state)
         lg.debug(self.thing.state)

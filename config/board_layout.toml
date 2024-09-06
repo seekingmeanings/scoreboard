@@ -35,6 +35,7 @@ type = "MCP23017"
 
 [[activator.home]]
 id = "digit0"
+type = "7segment"
 [activator.home.connections]
 "A" = "board0.GPA0"
 "B" = "board0.GPA1"
@@ -49,6 +50,7 @@ id = "digit0"
 
 [[activator.home]]
 id = "digit1"
+type = "7segment"
 [activator.home.connections]
 "A" = "board0.GPB2"
 "B" = "board0.GPB3"
@@ -65,6 +67,7 @@ id = "digit1"
 
 [[activator.time]]
 id = "digit2"
+type = "7segment"
 [activator.time.connections]
 "A" = "board1.GPA4"
 "B" = "board1.GPA5"
@@ -79,6 +82,7 @@ id = "digit2"
 
 [[activator.time]]
 id = "digit3"
+type = "7segment"
 [activator.time.connections]
 "A" = "board1.GPB6"
 "B" = "board1.GPB7"
@@ -94,6 +98,7 @@ id = "digit3"
 
 [[activator.inning]]
 id = "digit9"
+type = "7segment"
 [activator.inning.connections]
 "A" = "board6.GPB0"
 "B" = "board6.GPB1"
