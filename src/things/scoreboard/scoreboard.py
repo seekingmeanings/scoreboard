@@ -8,7 +8,7 @@ from board_header.virtual_mcp23017 import VirtualMCP23017
 
 from src.things.activator import LED
 
-from digits import Digit
+from .digits import Digit
 
 
 class Scoreboard:
@@ -62,10 +62,11 @@ class Scoreboard:
     def create_structure(self):
         self.create_boards()
         # create and link the leds
+        # TODO: this should be in the digit class not here
         for segment_name in self.config["activator"]:
             self.segments[segment_name] = []
             for digit in self.config["activator"][segment_name]:
-                new_digit = Digit(id=digit["id"], connections={})
+                new_digit = Digit(id=digit["id"], type=digit['type'], connections={})
                 self.digits[digit["id"]] = new_digit
                 for connection in digit["connections"]:
                     brd, gpio = str(digit["connections"][connection]).split(".")
