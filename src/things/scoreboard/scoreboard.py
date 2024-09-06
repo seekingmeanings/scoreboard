@@ -1,5 +1,5 @@
-#!/usr/bin/env python3
-
+from dataclasses import dataclass
+from typing import List, Dict, Union
 import tomlkit
 import logging as lg
 # TODO: make self overlay of the lib that supports both with a flag
@@ -8,12 +8,15 @@ from board_header.virtual_mcp23017 import VirtualMCP23017
 
 from src.things.activator import LED
 
+from digits import Digit
+
 
 class Scoreboard:
     """
     This class is the data class that modifies
     the actual scoreboard
     """
+
     # TODO: clean up the stupid dict for iters
     def __init__(
             self, character_config_file: str,
@@ -21,12 +24,15 @@ class Scoreboard:
             virtual: bool = False,
     ) -> None:
         self.virtual: bool = virtual
-        self.digits = None
-        self.boards: dict = dict()
+        self.digits: Dict[str, Scoreboard.Digit] = {}
+        self.boards: dict = {}
         self.config: dict = None
-        self.character = dict()
+        self.character = {}
         self.board_config_file = board_config_file
         self.character_config_file = character_config_file
+        self.segments: dict = {}
+
+        self.characters_conf = None
 
         self.load_config()
         self.create_structure()
@@ -56,19 +62,23 @@ class Scoreboard:
     def create_structure(self):
         self.create_boards()
         # create and link the leds
-        self.digits = dict()
-        for segment_group in self.config["activator"]:
-            for segment in self.config["activator"][segment_group]:
-                self.digits[segment["id"]] = {}
-                for connection in segment["connections"]:
-                    brd, gpio = str(segment["connections"][connection]).split(".")
-                    self.digits[segment["id"]][connection] = \
+        for segment_name in self.config["activator"]:
+            self.segments[segment_name] = []
+            for digit in self.config["activator"][segment_name]:
+                new_digit = Digit(id=digit["id"], connections={})
+                self.digits[digit["id"]] = new_digit
+                for connection in digit["connections"]:
+                    brd, gpio = str(digit["connections"][connection]).split(".")
+
+                    new_led =\
                         LED(
                             io_link=self.boards[brd].get_board_obj(),
                             pin=gpio,
                             name=connection,
                             constants=self.boards[brd].stupid_place_to_put_consts_ffs
                         )
+                    self.digits[digit["id"]].connections[connection] = new_led
+                self.segments[segment_name].append(new_digit)
 
     def load_config(self, board_config_file: str = None, characters_config_file: str = None):
         # TODO: maybe this can call all the other functions to refresh runtime
@@ -82,7 +92,7 @@ class Scoreboard:
             self.characters_conf = tomlkit.load(file)
             self.character = self.characters_conf["numbers"]
 
-    def display_char(self, digit_id, character: str | int = None):
+    def display_char(self, digit_id, character: Union[str, int] = None):
         if type(character) == str:
             if not len(character) == 1:
                 raise OverflowError(f"only one character is allowed, got {character}")
@@ -91,7 +101,7 @@ class Scoreboard:
 
         try:
             # buffer the digit access
-            digit = self.digits[digit_id]
+            digit = self.digits[digit_id].connections
 
             # set everything off
             if character is None:
@@ -126,23 +136,3 @@ class Scoreboard:
 
         except Exception as e:
             raise RuntimeError from e
-
-    def get_board_state(self) -> dict[str, dict[str, bool]]:
-        """
-        Retrieve the current state of the board as a dictionary
-        containing the digits as the keys, and as vals
-        another dictionary containing dicts of led_id str and the state
-        :return:
-        """
-        ret = {}
-        for digit in self.digits:
-            ret[digit] = {}
-            for led in self.digits[digit]:
-                ret[digit][led] = self.digits[digit][led].state
-
-        # return ret
-
-        return {
-            digit: {led: led_obj.state for led, led_obj in leds.items()}
-            for digit, leds in self.digits.items()
-        }

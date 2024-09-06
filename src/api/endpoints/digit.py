@@ -28,8 +28,25 @@ class DisplayDigitAccess(Resource):
     "/board/state"
 )
 class BoardAccess(Resource):
+    """
+    Retrieve the current state of the board as a dictionary
+    containing the digits as the keys, and as vals
+    another dictionary containing dicts of led_id str and the state
+    :return:
+    """
     def get(self):
-        return jsonify(self.board.get_board_state())
+        return jsonify(
+            {digit_id: {
+                led_id: led_obj.state
+                for led_id, led_obj in digit.connections.items()}
+                for digit_id, digit in
+                self.board.digits.items()}
+        )
+
+        # return jsonify({
+        #     digit: {led: led_obj.state for led, led_obj in leds.items()}
+        #     for digit, leds in self.board.digits.values()
+        # })
 
 
 @ApiEndpointManager().add_resources(
