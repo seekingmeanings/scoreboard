@@ -82,6 +82,13 @@ type = "7segment"
 
 [[activator.time]]
 id = "digit3"
+type = "2segment"
+[activator.time.connections]
+"upper" = "board1.GPB6"
+"lower" = "board1.GPB7"
+
+[[activator.time]]
+id = "digit4"
 type = "7segment"
 [activator.time.connections]
 "A" = "board1.GPB6"
