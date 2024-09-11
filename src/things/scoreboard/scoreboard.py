@@ -71,7 +71,7 @@ class Scoreboard:
                 for connection in digit["connections"]:
                     brd, gpio = str(digit["connections"][connection]).split(".")
 
-                    new_led =\
+                    new_led = \
                         LED(
                             io_link=self.boards[brd].get_board_obj(),
                             pin=gpio,
@@ -91,7 +91,51 @@ class Scoreboard:
 
         with open(self.character_config_file, 'r') as file:
             self.characters_conf = tomlkit.load(file)
-            self.character = self.characters_conf["numbers"]
+            # TODO: outdated, update class to new config file format
+            self.character = self.characters_conf['7segment']["numbers"]
+
+    def to_dots(self, digit: Union[Digit, Dict] = None, digit_type: str = None) -> Dict:
+        """
+        convert the io to a list of dots
+
+        this can be used to display the dots on the scoreboard
+        :param digit: the digit to convert, can be list of io, then digit_type is needed
+        :param digit_type: the type of the digit, if none, it will be looked up with the digit id
+        :return:
+        """
+        # return everything in self.digits
+        # TODO: not use that
+        if not digit:
+            digit = {
+                digit_name: self.digits[digit_name].connections
+                for digit_name in self.digits
+            }
+
+        if digit_type is None:
+            # check if its a digit object or a list
+            if isinstance(digit, Digit):
+                digit = digit.connections
+                digit_type = digit.type
+            else:
+                return {
+                    digit_name: self.to_dots(
+                        io_stuff,
+                        self.digits[digit_name].type
+                    )
+                    for digit_name, io_stuff in digit.items()
+                }
+        # TODO: other input cases
+
+        res = {}
+        for io_name, io_obj in digit.items():
+            io_state = io_obj.state if isinstance(io_obj, LED) else io_obj
+            for dots in self.characters_conf[digit_type]['dots']['io_to_dot'][io_name]:
+                for dot in dots:
+                    res[dot] = io_state
+        return res
+
+    def from_dots(self, dots: List) -> List:
+        pass
 
     def display_char(self, digit_id, character: Union[str, int] = None):
         if type(character) == str:
@@ -100,32 +144,36 @@ class Scoreboard:
 
         lg.debug(f"{digit_id}: {character}")
 
+        # TODO: put lots of that in the Digit class itself
         try:
             # buffer the digit access
-            digit = self.digits[digit_id].connections
+            digit = self.digits[digit_id]
 
             # set everything off
             if character is None:
                 # TODO: geht nihcts
                 lg.debug(f"{digit} going dark")
-                for led in digit:
-                    digit[led].off()
-                print("lol")
+                for led in digit.connections:
+                    digit.connections[led].off()
                 return
 
             character = str(character)
 
             lg.debug(f"{digit}")
-            off_chars = (set(self.characters_conf["other"]["all"]) - set(self.character[character]))
+
+            off_chars = (
+                    set(self.characters_conf[digit.type]["other"]["all"])
+                    - set(self.characters_conf[digit.type]["numbers"][character])
+            )
             lg.debug(f"{off_chars}")
 
             # activate the leds
             if type(character) is str:
                 for led in self.character[character]:
-                    digit[led].on()
+                    digit.connections[led].on()
 
                 for led in off_chars:
-                    digit[led].off()
+                    digit.connections[led].off()
 
             else:
                 raise NotImplementedError()
@@ -134,6 +182,3 @@ class Scoreboard:
             raise ValueError(
                 f'the character "{character}" {type(character)}is not in {self.character_config_file}'
             ) from e
-
-        except Exception as e:
-            raise RuntimeError from e

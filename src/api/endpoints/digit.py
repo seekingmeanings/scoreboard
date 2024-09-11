@@ -43,10 +43,16 @@ class BoardAccess(Resource):
                 self.board.digits.items()}
         )
 
-        # return jsonify({
-        #     digit: {led: led_obj.state for led, led_obj in leds.items()}
-        #     for digit, leds in self.board.digits.values()
-        # })
+
+@ApiEndpointManager().add_resources(
+    {'board': 'board'},
+    "/board/dots/state"
+)
+class BoardDotAccess(Resource):
+    def get(self):
+        return jsonify(
+            self.board.to_dots()
+        )
 
 
 @ApiEndpointManager().add_resources(
