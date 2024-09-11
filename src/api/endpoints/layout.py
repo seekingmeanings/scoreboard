@@ -27,3 +27,20 @@ class BoardLayoutAccess(flask_restful.Resource):
 
         }
         )
+
+
+@ApiEndpointManager().add_resources(
+    resources={"board": "board"},
+    url="/board/controls"
+)
+class BoardControlsAccess(flask_restful.Resource):
+    def get(self):
+        """
+        get the control options for each segmentgroup
+        :return:
+        """
+        # TODO: they have to be added somewhere in the plugin init \
+        # either with a singelton manager or when the plugin is loaded
+        # and a placeholder is passed on that the plugin can itself fill
+        # with the controls
+        return
