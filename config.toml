@@ -15,5 +15,13 @@ dir = "src.plugins"
 
 [plugins.p.time]
 active = true
-auto_start = true
-config_file = "time/config.toml"
+autostart = true
+
+[plugins.p.time.init]
+self_resource = true
+
+[plugins.p.time.init.args]
+config_file = "config.toml"
+
+[plugins.p.time.init.resources]
+board = "board"
