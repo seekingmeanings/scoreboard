@@ -5,24 +5,24 @@
 update_interval = 0.2
 # TODO: restructure into secerate conf file
 
-[digits.digit4]
-[digits.digit4.strftime]
+[digits.digit2]
+[digits.digit2.strftime]
 format = "%S"
 index = 0
 
-[digits.digit5]
-[digits.digit5.strftime]
+[digits.digit3]
+[digits.digit3.strftime]
 format = "%S"
 index = 1
 
 
-[digits.digit6]
-[digits.digit6.strftime]
+[digits.digit5]
+[digits.digit5.strftime]
 format = "%M"
 index = 0
 
-[digits.digit7]
-[digits.digit7.strftime]
+[digits.digit6]
+[digits.digit6.strftime]
 format = "%M"
 index = 1
 
