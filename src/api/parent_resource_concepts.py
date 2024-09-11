@@ -3,6 +3,7 @@ import importlib
 import flask_restful
 import functools
 import ast
+import logging as lg
 
 from src.helper import get_wrapped_classes as wrap_scan
 
@@ -44,10 +45,10 @@ class ApiEndpointManager:
     def import_endpoint_module(module: str) -> None:
 
         # TODO: every file has to be imported, or the __init__.py has to take care
+        lg.debug(f"importing module: {module}")
         importlib.import_module(module)
-        import src.api.endpoints
 
-    def auto_add_endpoints(self) -> None:
+    def auto_add_endpoints_not_needed(self) -> None:
         import src.api.endpoints
         print("added endpoints module")
         endpoints = wrap_scan.find_wrappers_in_module_path(src.api.endpoints)
