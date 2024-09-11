@@ -1,16 +1,30 @@
-# the layout
+# physical layout of the 7-segment digit
 #
-# A G G B
-# J     K
-# J     K
-# C H H B
-# L     M
-# L     M
-# E E E B
+# A G G B   a b c d
+# J     K   e     f
+# J     K   g     h
+# C H H B   i j k l
+# L     M   m     n
+# L     M   o     p
+# E E E B   q r s t
+
+[7segment.dots.io_to_dot]
+"A" = ["a", ]
+"G" = ["b", "c", "l", "t",]
+"B" = ["d",]
+"J" = ["e", "g",]
+"K" = ["f", "h",]
+"C" = ["i",]
+"H" = ["j", "k",]
+"L" = ["m", "o",]
+"M" = ["n", "p",]
+"E" = ["q", "r", "s",]
 
 
 
-[other]
+
+
+[7segment.other]
 all = [
     "A",
     "G",
@@ -25,7 +39,7 @@ all = [
 ]
 
 
-[numbers]
+[7segment.numbers]
 '0' = [
     "A",
     "G",
@@ -129,4 +143,29 @@ all = [
     "H",
     "M",
     "E",
+]
+
+
+[7segment.letters]
+'I' = [
+    "B",
+    "K",
+    "M",
+]
+
+
+
+
+# layout of the 2-segment digit
+# U     u
+# L     l
+
+[2segment.dots.io_to_dot]
+"U" = ["u",]
+"L" = ["l",]
+
+[2segment.other]
+all = [
+    "U",
+    "L",
 ]
