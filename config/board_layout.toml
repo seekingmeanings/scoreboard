@@ -82,13 +82,43 @@ type = "7segment"
 
 [[activator.time]]
 id = "digit3"
+type = "7segment"
+[activator.time.connections]
+"A" = "board1.GPA4"
+"B" = "board1.GPA5"
+"C" = "board1.GPA6"
+"G" = "board1.GPA7"
+"H" = "board1.GPB0"
+"E" = "board1.GPB1"
+"J" = "board1.GPB2"
+"K" = "board1.GPB3"
+"L" = "board1.GPB4"
+"M" = "board1.GPB5"
+
+[[activator.time]]
+id = "digit4"
 type = "2segment"
 [activator.time.connections]
 "U" = "board1.GPB6"
 "L" = "board1.GPB7"
 
 [[activator.time]]
-id = "digit4"
+id = "digit5"
+type = "7segment"
+[activator.time.connections]
+"A" = "board1.GPA4"
+"B" = "board1.GPA5"
+"C" = "board1.GPA6"
+"G" = "board1.GPA7"
+"H" = "board1.GPB0"
+"E" = "board1.GPB1"
+"J" = "board1.GPB2"
+"K" = "board1.GPB3"
+"L" = "board1.GPB4"
+"M" = "board1.GPB5"
+
+[[activator.time]]
+id = "digit6"
 type = "7segment"
 [activator.time.connections]
 "A" = "board1.GPB6"
