@@ -2,7 +2,7 @@
 import concurrent.futures
 import threading
 
-import logging as lg
+import logging
 
 import importlib
 
@@ -16,15 +16,17 @@ from flask_restful import Api
 from src.api.parent_resource_concepts import ApiEndpointManager
 
 from src.things.scoreboard.scoreboard import Scoreboard
+from src.things.scoreboard.controls import ControlManager
 
 from typing import List, Dict
 
 
 class BoardServer:
     def __init__(self, config_file: str, virtual: bool = False):
-        lg.debug("server instance init called")
+        self.lg = logging.getLogger(self.__class__.__name__)
+        self.lg.debug("server instance init called")
 
-        lg.info(f"loading config file: {config_file}")
+        self.lg.info(f"loading config file: {config_file}")
         with open(config_file, "r") as f:
             self.config = tomlkit.load(f)
 
@@ -35,18 +37,20 @@ class BoardServer:
             character_config_file=self.config["configs"]["characters"],
             board_config_file=self.config["configs"]["board_layout"],
             virtual=virtual),
-            "config": self.config
+            "config": self.config,
+            'controls': ControlManager()
         }
-        lg.debug(self.resources)
+        self.lg.debug(self.resources)
 
         # configure server
         self.app = Flask(self.config["server"]["name"])
         # self.jtw = JWTManager(self.app)
         self.api = Api(self.app)
+        self.api.base_url = self.config["api"]["base_url"]
 
         flask_cors.CORS(self.app)
 
-        self.api_manager = ApiEndpointManager(self.api, self.resources)
+        self.api_manager = ApiEndpointManager(self.api, self.resources, self.resources['controls'])
 
         # load plugins
         self.threads: List = []
@@ -56,7 +60,7 @@ class BoardServer:
             self.config['plugins']
         )
 
-        lg.debug("adding internal api  endpoints")
+        self.lg.debug("adding internal api  endpoints")
         # TODO: link them dynamic with the help of config and themselves
 
         self.api.base_url = "/rest"
@@ -65,6 +69,7 @@ class BoardServer:
         # TODO: make that from config
         self.api_manager.import_endpoint_module("src.api.endpoints")
 
+
         # start the threads
         self.start_threads()
 
@@ -72,12 +77,9 @@ class BoardServer:
         for thread in self.threads:
             thread.start()
 
-        for thread in self.threads:
-            lg.debug(f"thread {thread} is alive {thread.is_alive()}")
-
     def load_plugin(self, plugin_hook, plugin_conf):
         # do the real plugin init and stuff
-        lg.debug(f"loading plugin {plugin_hook}")
+        self.lg.debug(f"loading plugin {plugin_hook}")
         plugin = plugin_hook(
             **plugin_conf['init']['args'],
             **{
@@ -90,10 +92,10 @@ class BoardServer:
 
         # autostart
         if plugin_conf['autostart']:
-            lg.debug(f"preparing autostart plugin: {plugin}")
+            self.lg.debug(f"preparing autostart plugin: {plugin}")
             self.threads.append(threading.Thread(target=plugin.run, daemon=True))
 
-        lg.debug(f"finished loading plugin {plugin}")
+        self.lg.debug(f"finished loading plugin {plugin}")
 
     def get_plugins_from_conf(self, plugin_conf_head: dir):
         # TODO: should they all be in the config, or can they be loaded by just the plugin dir???
@@ -109,18 +111,24 @@ class BoardServer:
                 # TODO: make sure the plugins are not loading at the same time
                 self.load_plugin(self.external_plugins_modules[-1].init_hook, plugin_conf)
 
+            self.api_manager.import_endpoint_module(
+                self.external_plugins_modules[-1].__name__
+            )
+
     def run(self):
-        lg.info("starting server")
+        self.lg.info("starting server")
         self.app.run(host="localhost", port=6969)
 
 
 def main(args):
-    lg.basicConfig(level="DEBUG")
-
-    lg.debug(f"starting instance")
+    logging.basicConfig(level=args.verbosity)
+    logger = logging.getLogger(__name__)
+    logger.info(f"starting instance")
 
     server_instance = BoardServer(
         config_file="config.toml",
         virtual=args.virtual
     )
+    logger.info(f"server instance created")
+    
     server_instance.run()
