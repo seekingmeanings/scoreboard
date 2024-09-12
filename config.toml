@@ -4,6 +4,7 @@ name = "scoreboard"
 [api]
 ip = false
 port = 6969
+base_url = "/rest"
 
 [configs]
 board_layout = "config/board_layout.toml"
