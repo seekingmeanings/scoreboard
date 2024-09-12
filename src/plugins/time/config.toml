@@ -8,12 +8,12 @@ update_interval = 200
 
 [digits.digit2]
 [digits.digit2.strftime]
-format = "%S"
+format = "%H"
 index = 0
 
 [digits.digit3]
 [digits.digit3.strftime]
-format = "%S"
+format = "%H"
 index = 1
 
 
