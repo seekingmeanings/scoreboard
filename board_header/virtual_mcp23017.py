@@ -1,6 +1,7 @@
 from board_header.board import Board
 import mcp23017 as mcp
 
+import logging as lg
 
 class EmulatedSMBus:
     def __init__(self):
@@ -11,6 +12,8 @@ class EmulatedSMBus:
         # this dict just has bytes stored at addresses
         self._data: dict = dict()
         self._address = None
+
+        self.logger = lg.getLogger("EmulatedSMBus")
 
     def _check_addr(self):
         """
@@ -27,7 +30,7 @@ class EmulatedSMBus:
         :param value:
         :return:
         """
-        print(f"write at {hex(offset)}: {hex(value)}")
+        self.logger.debug(f"write at {hex(offset)}: {hex(value)}")
         self._data[offset] = value
 
     def read_byte(self, address: bytes) -> dict[bytes, bytes]:
@@ -41,7 +44,7 @@ class EmulatedSMBus:
         :param offset:
         :return:
         """
-        print(f"reading from {hex(offset)}: {hex(self._data[offset]) if offset in self._data else hex(0)}")
+        self.logger.debug(f"reading from {hex(offset)}: {hex(self._data[offset]) if offset in self._data else hex(0)}")
         if offset in self._data:
             return self._data[offset]
         # we have to make sure we return something
