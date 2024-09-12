@@ -2,7 +2,8 @@
 
 
 [time]
-update_interval = 0.2
+# update_interval: ms between updates
+update_interval = 200
 # TODO: restructure into secerate conf file
 
 [digits.digit2]
