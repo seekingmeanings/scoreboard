@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
-import logging
+import concurrent.futures
+import threading
+
 import logging as lg
 
 import importlib
@@ -14,6 +16,8 @@ from flask_restful import Api
 from src.api.parent_resource_concepts import ApiEndpointManager
 
 from src.things.scoreboard.scoreboard import Scoreboard
+
+from typing import List, Dict
 
 
 class BoardServer:
@@ -30,8 +34,9 @@ class BoardServer:
         self.resources = {"board": Scoreboard(
             character_config_file=self.config["configs"]["characters"],
             board_config_file=self.config["configs"]["board_layout"],
-            virtual=virtual
-        )}
+            virtual=virtual),
+            "config": self.config
+        }
         lg.debug(self.resources)
 
         # configure server
@@ -44,8 +49,10 @@ class BoardServer:
         self.api_manager = ApiEndpointManager(self.api, self.resources)
 
         # load plugins
-        self.external_plugins: list = list()
-        self.load_plugins_from_conf(
+        self.threads: List = []
+        self.external_plugins_modules: List = list()
+        self.external_plugins: List = list()
+        self.get_plugins_from_conf(
             self.config['plugins']
         )
 
@@ -58,26 +65,49 @@ class BoardServer:
         # TODO: make that from config
         self.api_manager.import_endpoint_module("src.api.endpoints")
 
-    def load_plugin(self, plugin_mod, plugin_conf):
+        # start the threads
+        self.start_threads()
+
+    def start_threads(self):
+        for thread in self.threads:
+            thread.start()
+
+        for thread in self.threads:
+            lg.debug(f"thread {thread} is alive {thread.is_alive()}")
+
+    def load_plugin(self, plugin_hook, plugin_conf):
         # do the real plugin init and stuff
-        print(plugin_mod)
-        print(plugin_conf)
+        lg.debug(f"loading plugin {plugin_hook}")
+        plugin = plugin_hook(
+            **plugin_conf['init']['args'],
+            **{
+                arg_name:
+                self.resources[arg_name]
+                for arg_name in plugin_conf['init']['resources']
+            }
+        )
+        self.external_plugins.append(plugin)
 
         # autostart
+        if plugin_conf['autostart']:
+            lg.debug(f"preparing autostart plugin: {plugin}")
+            self.threads.append(threading.Thread(target=plugin.run, daemon=True))
 
-    def load_plugins_from_conf(self, plugin_conf_head: dir):
+        lg.debug(f"finished loading plugin {plugin}")
+
+    def get_plugins_from_conf(self, plugin_conf_head: dir):
         # TODO: should they all be in the config, or can they be loaded by just the plugin dir???
         for plugin_name, plugin_conf in plugin_conf_head["p"].items():
-            self.external_plugins.append(
+            self.external_plugins_modules.append(
                 importlib.import_module(
                     name=f".{plugin_name}",
                     package=plugin_conf_head['dir']
                 )
             )
 
-            print(plugin_conf['active'])
             if 'active' in plugin_conf and plugin_conf['active'] is True:
-                self.load_plugin(self.external_plugins[-1], plugin_conf)
+                # TODO: make sure the plugins are not loading at the same time
+                self.load_plugin(self.external_plugins_modules[-1].init_hook, plugin_conf)
 
     def run(self):
         lg.info("starting server")
@@ -93,5 +123,4 @@ def main(args):
         config_file="config.toml",
         virtual=args.virtual
     )
-
     server_instance.run()
