@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 from typing import Dict, List, AnyStr, LiteralString
-
+import logging
 
 @dataclass
 class Control:
@@ -14,7 +14,7 @@ class Control:
     class ApiCall:
         method: str = 'POST'
         joined_endpoint: str = None
-        append_endpoint: str = None
+        append_endpoint: str = ''
         # TODO: implement parsing meth
         data: Dict = None
 
@@ -36,3 +36,6 @@ class ControlManager:
         if control in self._controls:
             raise ValueError("Control already exists")
         self._controls.append(control)
+
+    def get_controls_by_segment(self, segment_id: str) -> List[Control]:
+        return [control for control in self._controls if control.segment == segment_id]

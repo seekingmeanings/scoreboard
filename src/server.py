@@ -33,10 +33,11 @@ class BoardServer:
         # create working environment
         # self.thing = DummyVirtualThing()
 
-        self.resources = {"board": Scoreboard(
-            character_config_file=self.config["configs"]["characters"],
-            board_config_file=self.config["configs"]["board_layout"],
-            virtual=virtual),
+        self.resources = {
+            "board": Scoreboard(
+                character_config_file=self.config["configs"]["characters"],
+                board_config_file=self.config["configs"]["board_layout"],
+                virtual=virtual),
             "config": self.config,
             'controls': ControlManager()
         }
@@ -77,7 +78,7 @@ class BoardServer:
         for thread in self.threads:
             thread.start()
 
-    def load_plugin(self, plugin_hook, plugin_conf):
+    def load_plugin(self, plugin_hook, plugin_conf, plugin_name):
         # do the real plugin init and stuff
         self.lg.debug(f"loading plugin {plugin_hook}")
         plugin = plugin_hook(
@@ -89,6 +90,8 @@ class BoardServer:
             }
         )
         self.external_plugins.append(plugin)
+        if plugin_conf['init']['self_resource']:
+            self.resources[plugin_name] = plugin
 
         # autostart
         if plugin_conf['autostart']:
@@ -109,7 +112,7 @@ class BoardServer:
 
             if 'active' in plugin_conf and plugin_conf['active'] is True:
                 # TODO: make sure the plugins are not loading at the same time
-                self.load_plugin(self.external_plugins_modules[-1].init_hook, plugin_conf)
+                self.load_plugin(self.external_plugins_modules[-1].init_hook, plugin_conf, plugin_name)
 
             self.api_manager.import_endpoint_module(
                 self.external_plugins_modules[-1].__name__
@@ -130,5 +133,5 @@ def main(args):
         virtual=args.virtual
     )
     logger.info(f"server instance created")
-    
+
     server_instance.run()

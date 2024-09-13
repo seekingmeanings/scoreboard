@@ -7,7 +7,8 @@ import logging as lg
 
 
 @ApiEndpointManager().add_resources(
-    resources={"board": "board"},
+    resources={"board": "board",
+               "controls": "controls"},
     url="/board/layout"
 )
 class BoardLayoutAccess(flask_restful.Resource):
@@ -20,6 +21,15 @@ class BoardLayoutAccess(flask_restful.Resource):
                         {'id': digit.id, 'type': digit.type}
                         for digit in segment
 
+                    ],
+                    'controls': [
+                        {
+                            'id': control.id,
+                            'type': control.type,
+                            'endpoint': control.api_call.joined_endpoint,
+                            'method': control.api_call.method,
+                        }
+                        for control in self.controls.get_controls_by_segment(segment_id)
                     ]
                 }
                 for segment_id, segment in self.board.segments.items()
@@ -27,20 +37,3 @@ class BoardLayoutAccess(flask_restful.Resource):
 
         }
         )
-
-
-@ApiEndpointManager().add_resources(
-    resources={"board": "board"},
-    url="/board/controls"
-)
-class BoardControlsAccess(flask_restful.Resource):
-    def get(self):
-        """
-        get the control options for each segmentgroup
-        :return:
-        """
-        # TODO: they have to be added somewhere in the plugin init \
-        # either with a singelton manager or when the plugin is loaded
-        # and a placeholder is passed on that the plugin can itself fill
-        # with the controls
-        return

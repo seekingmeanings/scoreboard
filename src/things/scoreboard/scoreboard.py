@@ -137,8 +137,8 @@ class Scoreboard:
     def from_dots(self, dots: List) -> List:
         pass
 
-    def display_char(self, digit_id, character: Union[str, int] = None):
-        if type(character) == str:
+    def display_char(self, digit_id, character: Union[str, int, None] = None):
+        if isinstance(character, str):
             if not len(character) == 1:
                 raise OverflowError(f"only one character is allowed, got {character}")
 

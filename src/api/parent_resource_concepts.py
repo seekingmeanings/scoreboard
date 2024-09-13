@@ -74,6 +74,7 @@ class ApiEndpointManager:
             class WrappedClass(cls):
                 def __init__(self, *args, **kwargs):
                     super().__init__(*args, **kwargs)
+                    self.lg = logging.getLogger(cls.__name__)
                     if resources:
                         for name, res_name in resources.items():
                             setattr(

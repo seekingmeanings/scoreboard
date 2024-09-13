@@ -1,6 +1,6 @@
 from src.api.parent_resource_concepts import ApiEndpointManager
 
-from flask_restful import reqparse, request, Resource
+from flask_restful import reqparse, Resource, inputs
 from flask import jsonify
 import logging as lg
 
@@ -72,7 +72,7 @@ class LEDAccess(Resource):
         p = reqparse.RequestParser()
         p.add_argument("digit", required=True, location="args", type=str)
         p.add_argument("led_id", location="args", type=str, required=True)
-        p.add_argument("state", required=True, location="args", type=bool)
+        p.add_argument("state", required=True, location="args", type=inputs.boolean)
         args = p.parse_args()
 
         self.board.digits[args.digit][args.led_id].state = bool(args.state)
