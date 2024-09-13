@@ -19,9 +19,7 @@ class Control:
         data: Dict = None
 
         def make_call(self, endpoint: str):
-            logging.warning(f"MAKE CALLLLLLLLLLLLLLLL for {endpoint}")
             self.joined_endpoint = endpoint.join(self.append_endpoint) if self.append_endpoint else endpoint
-            logging.warning(self.joined_endpoint)
 
     segment: AnyStr = None
     id: AnyStr = None
