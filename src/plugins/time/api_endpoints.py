@@ -12,6 +12,7 @@ from typing import LiteralString
         Control(
             segment="time",
             id="toggle",
+            label="toggle",
             type="button",
             api_call=Control.ApiCall(
                 method="POST",

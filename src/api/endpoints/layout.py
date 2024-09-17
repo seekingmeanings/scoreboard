@@ -28,6 +28,8 @@ class BoardLayoutAccess(flask_restful.Resource):
                             'type': control.type,
                             'endpoint': control.api_call.joined_endpoint,
                             'method': control.api_call.method,
+                            'label': control.label,
+                            # TODO: implement when on, when of and after press label or action????
                         }
                         for control in self.controls.get_controls_by_segment(segment_id)
                     ]

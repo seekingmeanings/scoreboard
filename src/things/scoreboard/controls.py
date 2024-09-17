@@ -2,6 +2,7 @@ from dataclasses import dataclass
 from typing import Dict, List, AnyStr, LiteralString
 import logging
 
+
 @dataclass
 class Control:
     """
@@ -23,9 +24,9 @@ class Control:
 
     segment: AnyStr = None
     id: AnyStr = None
+    label: AnyStr = None
     type: AnyStr = None
     api_call: ApiCall = None
-
 
 
 class ControlManager:
