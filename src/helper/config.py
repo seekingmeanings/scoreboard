@@ -6,21 +6,32 @@ import logging
 
 
 class Config(LockedTracking):
-    def __init__(self, config_file: str) -> None:
-
+    def __init__(self, config_file: str = None,
+                 config_data=None,
+                 parent=None,
+                 parent_keys=None) -> None:
+        # TODO get __file__ for init to get the global filepath here instead of the other class
         super().__init__()
 
+        # TODO: sub config has extra logger
         self.lg = logging.getLogger(__name__)
 
-        self.edited_affix = ".edited"
-        self._config_file = config_file
-        self._edited_fp = self._config_file + self.edited_affix
+        if config_file:
+            self.edited_affix = ".edited"
+            self._config_file = config_file
+            self._edited_fp = self._config_file + self.edited_affix
 
-        # load the config file
-        self._config = None
-        self.reload()
+            # load the config file
+            self._config = self._load_config()
 
-    def reload(self) -> None:
+        else:
+            self._config = config_data
+            self.config_file = None
+
+        self.parent = parent
+        self.parent_keys = parent_keys or []
+
+    def _load_config(self) -> Dict:
         """
         load the config file
 
@@ -30,20 +41,25 @@ class Config(LockedTracking):
         if os.path.exists(self._edited_fp):
             with open(self._edited_fp, "r") as f:
                 self.lg.info(f"loading config as toml from: {self._edited_fp}")
-                self._config = tomlkit.load(f)
+                return tomlkit.load(f)
 
-        else:
-            with open(self._config_file, "r") as f:
-                self.lg.info(f"loading config as toml from: {self._config_file}")
-                self._config = tomlkit.load(f)
+        with open(self._config_file, "r") as f:
+            self.lg.info(f"loading config as toml from: {self._config_file}")
+            return tomlkit.load(f)
 
     def apply_changes(self) -> None:
         """
         reload the config file itself
         :return:
         """
-        with open(self._edited_fp, 'w') as f:
-            tomlkit.dump(self._config, f)
+        if self.parent:
+            self.parent.set(self._config, *self.parent_keys)
+
+        elif self.config_file:
+            with open(self._edited_fp, 'w') as f:
+                tomlkit.dump(self._config, f)
+        else:
+            self.lg.warning("something went wrong, no parent and not a parent itself")
 
     @LockedTracking.locked_access
     def get(self, *keys) -> Union[Dict, Any]:
@@ -51,6 +67,8 @@ class Config(LockedTracking):
         get the config stack
         :return: get the stack
         """
+        # TODO: _config is only when loaded file???
+        # TODO: need to make sure where data is in subclasses
         d = self._config
         for key in keys:
             d = d.get(key, None)
@@ -77,3 +95,11 @@ class Config(LockedTracking):
         d[keys[-1]] = value
 
         self.apply_changes()
+
+    def get_sub_config(self, *keys):
+        subset = self.get(*keys)
+        if subset is None:
+            subset = {}
+            self.set(subset, *keys)
+
+        return Config(config_data=subset, parent=self, parent_keys=keys)
