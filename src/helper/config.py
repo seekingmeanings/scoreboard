@@ -3,6 +3,7 @@ from typing import Any, List, Dict, Union
 import os
 import tomlkit
 import logging
+import functools
 
 
 class Config(LockedTracking):
@@ -31,6 +32,13 @@ class Config(LockedTracking):
         self.parent = parent
         self.parent_keys = parent_keys or []
 
+
+    def expand_tree(self):
+        pass
+
+    def recurse_kids(self):
+        pass
+
     def _load_config(self) -> Dict:
         """
         load the config file
@@ -53,6 +61,7 @@ class Config(LockedTracking):
         :return:
         """
         if self.parent:
+            # TODO: put this in set and stop with _config on level > 0
             self.parent.set(self._config, *self.parent_keys)
 
         elif self.config_file:
@@ -67,13 +76,16 @@ class Config(LockedTracking):
         get the config stack
         :return: get the stack
         """
-        # TODO: _config is only when loaded file???
-        # TODO: need to make sure where data is in subclasses
+        if self.parent:
+            # dont get it yourself if there is a parent
+            return self.parent.get(*[*self.parent_keys, *keys])
+
         d = self._config
         for key in keys:
             d = d.get(key, None)
             if d is None:
-                return None
+                # key doesnt exist (on this level)
+                raise KeyError
         return d
 
     @LockedTracking.locked_access
@@ -87,14 +99,38 @@ class Config(LockedTracking):
         to not overwrite the original file
         :return:
         """
-        d = self._config
-        for key in keys[:-1]:
-            if key not in d:
-                d[key] = {}
-            d = d[key]
-        d[keys[-1]] = value
+        # TODO put in wrapper
+        if self.parent:
+            self.parent.set(value, *[*self.parent_keys, *keys])
+        elif self._config_file:
 
-        self.apply_changes()
+            d = self._config
+
+            for key in keys[:-1]:
+                if key not in d:
+                    d[key] = {}
+                d = d[key]
+            d[keys[-1]] = value
+
+            # safe n shit
+            with open(self._edited_fp, 'w') as f:
+                self.lg.error(f"dumping shit to {self._edited_fp}")
+                tomlkit.dump(self._config, f)
+        else:
+            self.lg.warning("something went wrong, no parent and not a parent itself")
+
+    @LockedTracking.locked_access
+    def delete(self, *keys):
+        if self.parent:
+            raise NotImplementedError()
+            self.parent.delete(*keys)
+
+        else:
+            tree = keys[:-1:]
+            upper_stack_of_del = self.get(*tree)
+            upper_stack_of_del.pop(keys[-1])
+
+            self.set(upper_stack_of_del, *tree)
 
     def get_sub_config(self, *keys):
         subset = self.get(*keys)
@@ -102,4 +138,9 @@ class Config(LockedTracking):
             subset = {}
             self.set(subset, *keys)
 
-        return Config(config_data=subset, parent=self, parent_keys=keys)
+        return Config(
+            # TODO: only need parant info, editing just on level 0
+            config_data=subset,
+            parent=self,
+            parent_keys=keys
+        )
