@@ -1,0 +1,1 @@
+need to reduce the amount of io calls with making it av to send the single io register as one to one board at a time

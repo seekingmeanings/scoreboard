@@ -1,0 +1,78 @@
+from src.api.parent_resource_concepts import ApiEndpointManager
+
+from flask_restful import reqparse, Resource, inputs
+from flask import jsonify
+import logging as lg
+
+
+@ApiEndpointManager().add_resources(
+    {'board': "board"},
+    "/display"
+)
+class DisplayDigitAccess(Resource):
+    def post(self):
+        p = reqparse.RequestParser()
+        p.add_argument("digit", required=True, location="args", type=str)
+        p.add_argument("content", location="args", type=str)
+        sargs = p.parse_args()
+        lg.debug(f"setting display {sargs.digit} to {sargs.content}")
+
+        try:
+            self.board.display_char(sargs.digit, sargs.content)
+        except OverflowError:
+            return "invalid op", 500
+
+
+@ApiEndpointManager().add_resources(
+    {'board': 'board'},
+    "/board/state"
+)
+class BoardAccess(Resource):
+    """
+    Retrieve the current state of the board as a dictionary
+    containing the digits as the keys, and as vals
+    another dictionary containing dicts of led_id str and the state
+    :return:
+    """
+    def get(self):
+        return jsonify(
+            {digit_id: {
+                led_id: led_obj.state
+                for led_id, led_obj in digit.connections.items()}
+                for digit_id, digit in
+                self.board.digits.items()}
+        )
+
+
+@ApiEndpointManager().add_resources(
+    {'board': 'board'},
+    "/board/dots/state"
+)
+class BoardDotAccess(Resource):
+    def get(self):
+        return jsonify(
+            self.board.to_dots()
+        )
+
+
+@ApiEndpointManager().add_resources(
+    {'board': 'board'},
+    "/led"
+)
+class LEDAccess(Resource):
+    def get(self):
+        p = reqparse.RequestParser()
+        p.add_argument("digit", required=True, location="args", type=str)
+        p.add_argument("led_id", location="args", type=str, required=True)
+        args = p.parse_args()
+
+        return self.board.digits[args.digit][args.led_id].state
+
+    def post(self):
+        p = reqparse.RequestParser()
+        p.add_argument("digit", required=True, location="args", type=str)
+        p.add_argument("led_id", location="args", type=str, required=True)
+        p.add_argument("state", required=True, location="args", type=inputs.boolean)
+        args = p.parse_args()
+
+        self.board.digits[args.digit][args.led_id].state = bool(args.state)

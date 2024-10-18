@@ -1,0 +1,149 @@
+[boards.board0]
+address = 0x20
+type = "MCP23017"
+
+[boards.board1]
+address = 0x21
+type = "MCP23017"
+
+[boards.board2]
+address = 0x22
+type = "MCP23017"
+
+[boards.board3]
+address = 0x23
+type = "MCP23017"
+
+[boards.board4]
+address = 0x24
+type = "MCP23017"
+
+[boards.board5]
+address = 0x25
+type = "MCP23017"
+
+[boards.board6]
+address = 0x26
+type = "MCP23017"
+
+[boards.board7]
+address = 0x27
+type = "MCP23017"
+
+
+
+
+[[activator.home]]
+id = "digit0"
+type = "7segment"
+[activator.home.connections]
+"A" = "board0.GPA0"
+"B" = "board0.GPA1"
+"C" = "board0.GPA2"
+"G" = "board0.GPA3"
+"H" = "board0.GPA4"
+"E" = "board0.GPA5"
+"J" = "board0.GPA6"
+"K" = "board0.GPA7"
+"L" = "board0.GPB0"
+"M" = "board0.GPB1"
+
+[[activator.home]]
+id = "digit1"
+type = "7segment"
+[activator.home.connections]
+"A" = "board0.GPB2"
+"B" = "board0.GPB3"
+"C" = "board0.GPB4"
+"G" = "board0.GPB5"
+"H" = "board0.GPB6"
+"E" = "board0.GPB7"
+"J" = "board1.GPA0"
+"K" = "board1.GPA1"
+"L" = "board1.GPA2"
+"M" = "board1.GPA3"
+
+
+
+[[activator.time]]
+id = "digit2"
+type = "7segment"
+[activator.time.connections]
+"A" = "board1.GPA4"
+"B" = "board1.GPA5"
+"C" = "board1.GPA6"
+"G" = "board1.GPA7"
+"H" = "board1.GPB0"
+"E" = "board1.GPB1"
+"J" = "board1.GPB2"
+"K" = "board1.GPB3"
+"L" = "board1.GPB4"
+"M" = "board1.GPB5"
+
+[[activator.time]]
+id = "digit3"
+type = "7segment"
+[activator.time.connections]
+"A" = "board1.GPA4"
+"B" = "board1.GPA5"
+"C" = "board1.GPA6"
+"G" = "board1.GPA7"
+"H" = "board1.GPB0"
+"E" = "board1.GPB1"
+"J" = "board1.GPB2"
+"K" = "board1.GPB3"
+"L" = "board1.GPB4"
+"M" = "board1.GPB5"
+
+[[activator.time]]
+id = "digit4"
+type = "2segment"
+[activator.time.connections]
+"U" = "board1.GPB6"
+"L" = "board1.GPB7"
+
+[[activator.time]]
+id = "digit5"
+type = "7segment"
+[activator.time.connections]
+"A" = "board1.GPA4"
+"B" = "board1.GPA5"
+"C" = "board1.GPA6"
+"G" = "board1.GPA7"
+"H" = "board1.GPB0"
+"E" = "board1.GPB1"
+"J" = "board1.GPB2"
+"K" = "board1.GPB3"
+"L" = "board1.GPB4"
+"M" = "board1.GPB5"
+
+[[activator.time]]
+id = "digit6"
+type = "7segment"
+[activator.time.connections]
+"A" = "board1.GPB6"
+"B" = "board1.GPB7"
+"C" = "board2.GPA0"
+"G" = "board2.GPA1"
+"H" = "board2.GPA2"
+"E" = "board2.GPA3"
+"J" = "board2.GPA4"
+"K" = "board2.GPA5"
+"L" = "board2.GPA6"
+"M" = "board2.GPA7"
+
+
+[[activator.inning]]
+id = "digit9"
+type = "7segment"
+[activator.inning.connections]
+"A" = "board6.GPB0"
+"B" = "board6.GPB1"
+"C" = "board6.GPB2"
+"G" = "board6.GPB3"
+"H" = "board6.GPB4"
+"E" = "board6.GPB5"
+"J" = "board6.GPB6"
+"K" = "board6.GPB7"
+"L" = "board7.GPA0"
+"M" = "board7.GPA1"

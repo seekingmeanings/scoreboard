@@ -1,0 +1,171 @@
+# physical layout of the 7-segment digit
+#
+# A G G B   a b c d
+# J     K   e     f
+# J     K   g     h
+# C H H B   i j k l
+# L     M   m     n
+# L     M   o     p
+# E E E B   q r s t
+
+[7segment.dots.io_to_dot]
+"A" = ["a", ]
+"G" = ["b", "c",]
+"B" = ["d", "l", "t",]
+"J" = ["e", "g",]
+"K" = ["f", "h",]
+"C" = ["i",]
+"H" = ["j", "k",]
+"L" = ["m", "o",]
+"M" = ["n", "p",]
+"E" = ["q", "r", "s",]
+
+
+
+
+
+[7segment.other]
+all = [
+    "A",
+    "G",
+    "B",
+    "J",
+    "K",
+    "C",
+    "H",
+    "L",
+    "M",
+    "E",
+]
+
+
+[7segment.numbers]
+'0' = [
+    "A",
+    "G",
+    "B",
+    "J",
+    "K",
+    "C",
+    "L",
+    "M",
+    "E",
+]
+
+'1' = [
+    "B",
+    "K",
+    "M",
+]
+
+'2' = [
+    "A",
+    "G",
+    "B",
+    "K",
+    "C",
+    "H",
+    "L",
+    "E",
+]
+
+'3' = [
+    "A",
+    "G",
+    "B",
+    "K",
+    "H",
+    "M",
+    "E",
+]
+
+'4' = [
+    "A",
+    "B",
+    "J",
+    "K",
+    "C",
+    "H",
+    "M",
+]
+
+'5' = [
+    "A",
+    "G",
+    "B",
+    "J",
+    "C",
+    "H",
+    "M",
+    "E",
+]
+
+'6' = [
+    "A",
+    "G",
+    "B",
+    "J",
+    "C",
+    "H",
+    "L",
+    "M",
+    "E",
+]
+
+'7' = [
+    "A",
+    "G",
+    "B",
+    "K",
+    "M",
+]
+
+'8' = [
+    "A",
+    "G",
+    "B",
+    "J",
+    "K",
+    "C",
+    "H",
+    "L",
+    "M",
+    "E",
+]
+
+'9' = [
+    "A",
+    "G",
+    "B",
+    "J",
+    "K",
+    "C",
+    "H",
+    "M",
+    "E",
+]
+
+
+[7segment.letters]
+'I' = [
+    "B",
+    "K",
+    "M",
+]
+
+
+
+
+# layout of the 2-segment digit
+# U     u
+# L     l
+
+[2segment.dots.io_to_dot]
+"U" = ["u",]
+"L" = ["l",]
+
+[2segment.other]
+all = [
+    "U",
+    "L",
+]

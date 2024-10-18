@@ -1,0 +1,21 @@
+[api]
+# better not change this value
+endpoint = "/controls"
+# TODO: dynamically with path??
+
+[segment_groups]
+
+[segment_groups.inning]
+type = "counter"
+overflow = false
+
+reset = true
+
+# start_value = 0
+
+min = 0
+max = 9
+step = 1
+
+[[segment_groups.inning.conditional]]
+

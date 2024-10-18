@@ -1,0 +1,30 @@
+# for format see time.strftime docstring
+
+
+[time]
+# update_interval: ms between updates
+update_interval = 200
+# TODO: restructure into secerate conf file
+
+[digits.digit2]
+[digits.digit2.strftime]
+format = "%H"
+index = 0
+
+[digits.digit3]
+[digits.digit3.strftime]
+format = "%H"
+index = 1
+
+
+[digits.digit5]
+[digits.digit5.strftime]
+format = "%M"
+index = 0
+
+[digits.digit6]
+[digits.digit6.strftime]
+format = "%M"
+index = 1
+
+
