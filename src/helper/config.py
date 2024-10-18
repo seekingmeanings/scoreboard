@@ -204,16 +204,24 @@ class Config(LockedTracking):
 
     @LockedTracking.locked_access
     def create_child_config(self, keys: KeyList):
-        self.lg.error(f"creating child from {keys}, subset is: {self.get(keys)}")
-        subset = self.get(keys)
-        if subset is None:
-            raise RuntimeWarning("check implementation")
-            subset = {}
-            self.set(subset, keys)
+        self.lg.debug(f"creating child from {keys}, subset is: {self.get(keys)}")
+        try:
+            subset = self.get(keys)
+            if subset is None:
+                raise RuntimeWarning("check implementation")
+                subset = {}
+                self.set(subset, keys)
+        except AttributeError as e:
+            # TODO: implement
+            raise NotImplementedError(f"the keychain {keys} leads to a value") from e
 
-        return Config(
-            # TODO: only need parent info, editing just on level 0
-            config_data=subset,
-            parent=self,
-            parent_keys=keys
-        )
+        except KeyError as e:
+            raise KeyError(f"keychain {keys} doesnt exist in {self}") from e
+
+        else:
+            return Config(
+                # TODO: only need parent info, editing just on level 0
+                config_data=subset,
+                parent=self,
+                parent_keys=keys
+            )
