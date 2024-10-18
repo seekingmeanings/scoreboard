@@ -44,9 +44,11 @@ class ControlsPlugin:
 
         self.lg.debug("loading controls plugin instance")
         # init all the classes
-        for control_conf_segment in self.config.get("segment_groups"):
-            split_control_config_segment = self.config.get_sub_config(
-                "segment_groups", control_conf_segment
+        for control_conf_segment in self.config.get(["segment_groups"]):
+            split_control_config_segment = self.config.create_child_config(
+                [
+                    "segment_groups", control_conf_segment
+                ]
             )
             segment_control_type = split_control_config_segment.get("type")
 
